@@ -1,107 +1,749 @@
 "use client";
+import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
+import { motion, useScroll, useTransform } from "framer-motion";
 import Preloader from "./components/Preloader";
 
 export default function Home() {
-  return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      {/* Preloader overlays and fades out after a short delay */}
-      <Preloader text="LOADING" />
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              app/page.js
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const [jobDescription, setJobDescription] = useState("");
+  const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [scrollY, setScrollY] = useState(0);
+  const [showContent, setShowContent] = useState(false);
+  const [showMegaMenu, setShowMegaMenu] = useState(false);
+  const heroRef = useRef(null);
+  const { scrollYProgress } = useScroll();
+  const parallaxY = useTransform(scrollYProgress, [0, 1], [0, -100]);
+  const parallaxY1 = useTransform(scrollYProgress, [0, 1], [0, 150]);
+  const parallaxY2 = useTransform(scrollYProgress, [0, 1], [0, -150]);
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
+  useEffect(() => {
+    const handleScroll = () => setScrollY(window.scrollY);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const handleAnalyze = () => {
+    setIsAnalyzing(true);
+    // Simulate analysis
+    setTimeout(() => setIsAnalyzing(false), 2000);
+  };
+
+  const handlePreloaderComplete = () => {
+    setShowContent(true);
+  };
+
+  return (
+    <div className="min-h-screen" style={{
+      background: "linear-gradient(180deg, #a8d5e2 0%, #e8f4f8 50%, #fef5e7 100%)",
+    }}>
+      <Preloader text="LOADING PROJECT VIBE" onComplete={handlePreloaderComplete} />
+      
+      {/* All content hidden during preloader */}
+      {showContent && (
+        <>
+        <motion.header 
+        initial={{ y: -100, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
+        className="sticky top-0 z-50 px-4 sm:px-8 py-4"
+        onMouseLeave={() => setShowMegaMenu(false)}
+      >
+        <div className="max-w-4xl mx-auto relative">
+          {/* Liquid Glass Container - Narrower & Taller */}
+          <div className="relative overflow-visible rounded-full">
+            {/* Animated Gradient Background Layer */}
+            <motion.div
+              className="absolute inset-0 opacity-20 rounded-full"
+              animate={{
+                background: [
+                  "linear-gradient(135deg, rgba(168, 213, 186, 0.2) 0%, rgba(123, 168, 212, 0.2) 100%)",
+                  "linear-gradient(135deg, rgba(123, 168, 212, 0.2) 0%, rgba(212, 197, 169, 0.2) 100%)",
+                  "linear-gradient(135deg, rgba(212, 197, 169, 0.2) 0%, rgba(168, 213, 186, 0.2) 100%)",
+                  "linear-gradient(135deg, rgba(168, 213, 186, 0.2) 0%, rgba(123, 168, 212, 0.2) 100%)",
+                ],
+              }}
+              transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
             />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+            
+            {/* Whitish Glassmorphism Main Layer */}
+            <div 
+              className="relative px-4 sm:px-5 py-3 border border-white/60 rounded-full"
+              style={{
+                background: "rgba(255, 255, 255, 0.7)",
+                backdropFilter: "blur(20px) saturate(150%)",
+                WebkitBackdropFilter: "blur(20px) saturate(150%)",
+                boxShadow: "0 4px 24px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.8), inset 0 -1px 0 rgba(255, 255, 255, 0.4)",
+              }}
+            >
+              {/* Liquid Shimmer Effect */}
+              <motion.div
+                className="absolute inset-0 opacity-20 rounded-full"
+                style={{
+                  background: "linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent)",
+                }}
+                animate={{
+                  x: ["-100%", "200%"],
+                }}
+                transition={{
+                  duration: 3,
+                  repeat: Infinity,
+                  ease: "linear",
+                  repeatDelay: 2,
+                }}
+              />
+
+              <div className="flex justify-between items-center relative z-10">
+                {/* Logo/Brand - Smaller */}
+                <motion.div 
+                  className="flex items-center gap-2"
+                  whileHover={{ scale: 1.02 }}
+                  transition={{ type: "spring", stiffness: 400 }}
+                >
+                  <motion.div 
+                    className="w-7 h-7 rounded-lg flex items-center justify-center shadow-sm relative overflow-hidden"
+                    whileHover={{ rotate: [0, -10, 10, -10, 0] }}
+                    transition={{ duration: 0.5 }}
+                  >
+                    <div className="absolute inset-0 bg-gradient-to-br from-[#a8d5ba] to-[#7ba8d4]" />
+                    <motion.div
+                      className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/40 to-transparent"
+                      animate={{
+                        rotate: [0, 360],
+                      }}
+                      transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
+                    />
+                    <span className="text-sm relative z-10">✨</span>
+                  </motion.div>
+                  <h1 className="text-lg sm:text-xl font-bold bg-gradient-to-r from-gray-800 via-gray-700 to-gray-900 bg-clip-text text-transparent tracking-tight">
+                    Craft My Prep
+                  </h1>
+                </motion.div>
+
+                {/* Center Navigation Links - Compact */}
+                <nav className="hidden md:flex items-center gap-0.5">
+                  <motion.button
+                    onMouseEnter={() => setShowMegaMenu(true)}
+                    className="px-3 py-1.5 text-xs font-medium text-gray-700 hover:text-gray-900 rounded-full hover:bg-white/40 transition-colors"
+                  >
+                    Features
+                  </motion.button>
+                  <a href="#" className="px-3 py-1.5 text-xs font-medium text-gray-700 hover:text-gray-900 rounded-full hover:bg-white/40 transition-colors">
+                    Resources
+                  </a>
+                  <a href="#" className="px-3 py-1.5 text-xs font-medium text-gray-700 hover:text-gray-900 rounded-full hover:bg-white/40 transition-colors">
+                    Pricing
+                  </a>
+                  <a href="#" className="px-3 py-1.5 text-xs font-medium text-gray-700 hover:text-gray-900 rounded-full hover:bg-white/40 transition-colors">
+                    About
+                  </a>
+                </nav>
+
+                {/* Right Side Buttons - Compact */}
+                <div className="flex items-center gap-2">
+                  <motion.button 
+                    whileHover={{ scale: 1.05, y: -1 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="px-3 py-1.5 rounded-full text-xs font-medium text-gray-800 relative overflow-hidden group"
+                    style={{
+                      background: "rgba(255, 255, 255, 0.5)",
+                      backdropFilter: "blur(10px)",
+                      border: "1px solid rgba(255, 255, 255, 0.8)",
+                      boxShadow: "0 2px 8px rgba(0, 0, 0, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.9)",
+                    }}
+                  >
+                    <motion.div
+                      className="absolute inset-0 bg-gradient-to-r from-transparent via-white/50 to-transparent"
+                      initial={{ x: "-100%" }}
+                      whileHover={{ x: "100%" }}
+                      transition={{ duration: 0.6 }}
+                    />
+                    <span className="relative z-10">Login</span>
+                  </motion.button>
+                  
+                  <motion.button 
+                    whileHover={{ scale: 1.05, y: -1 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="px-4 py-1.5 rounded-full text-xs font-semibold text-white relative overflow-hidden group"
+                    style={{
+                      background: "linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%)",
+                      backdropFilter: "blur(10px)",
+                      boxShadow: "0 2px 12px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1)",
+                    }}
+                  >
+                    <motion.div
+                      className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
+                      initial={{ x: "-100%" }}
+                      whileHover={{ x: "100%" }}
+                      transition={{ duration: 0.6 }}
+                    />
+                    <span className="relative z-10">Try Free</span>
+                  </motion.button>
+                </div>
+              </div>
+            </div>
+
+            {/* Mega Menu Dropdown */}
+            {showMegaMenu && (
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.2 }}
+                className="absolute top-full left-0 right-0 mt-2"
+                onMouseEnter={() => setShowMegaMenu(true)}
+                onMouseLeave={() => setShowMegaMenu(false)}
+              >
+                <div 
+                  className="rounded-2xl border border-white/50 p-6"
+                  style={{
+                    background: "rgba(255, 255, 255, 0.95)",
+                    backdropFilter: "blur(30px) saturate(180%)",
+                    WebkitBackdropFilter: "blur(30px) saturate(180%)",
+                    boxShadow: "0 20px 60px rgba(0, 0, 0, 0.15)",
+                  }}
+                >
+                  <div className="grid grid-cols-3 gap-4 max-w-5xl mx-auto">
+                    {/* AI Interview Prep */}
+                    <motion.a
+                      href="#"
+                      whileHover={{ scale: 1.02, y: -2 }}
+                      className="p-4 rounded-xl bg-gradient-to-br from-[#a8d5ba]/20 to-[#a8d5ba]/5 hover:from-[#a8d5ba]/30 hover:to-[#a8d5ba]/10 transition-all group"
+                    >
+                      <div className="flex items-start gap-3">
+                        <div className="w-10 h-10 rounded-lg bg-[#a8d5ba] flex items-center justify-center text-xl shadow-md">
+                          🎯
+                        </div>
+                        <div className="flex-1">
+                          <h3 className="font-bold text-gray-900 mb-1 group-hover:text-[#68a063] transition-colors">
+                            AI Interview Prep
+                          </h3>
+                          <p className="text-sm text-gray-600">
+                            Personalized practice sessions
+                          </p>
+                        </div>
+                      </div>
+                    </motion.a>
+
+                    {/* Skill Assessment */}
+                    <motion.a
+                      href="#"
+                      whileHover={{ scale: 1.02, y: -2 }}
+                      className="p-4 rounded-xl bg-gradient-to-br from-[#7ba8d4]/20 to-[#7ba8d4]/5 hover:from-[#7ba8d4]/30 hover:to-[#7ba8d4]/10 transition-all group"
+                    >
+                      <div className="flex items-start gap-3">
+                        <div className="w-10 h-10 rounded-lg bg-[#7ba8d4] flex items-center justify-center text-xl shadow-md">
+                          📊
+                        </div>
+                        <div className="flex-1">
+                          <h3 className="font-bold text-gray-900 mb-1 group-hover:text-[#5b88b4] transition-colors">
+                            Skill Assessment
+                          </h3>
+                          <p className="text-sm text-gray-600">
+                            Track your progress
+                          </p>
+                        </div>
+                      </div>
+                    </motion.a>
+
+                    {/* Mock Interviews */}
+                    <motion.a
+                      href="#"
+                      whileHover={{ scale: 1.02, y: -2 }}
+                      className="p-4 rounded-xl bg-gradient-to-br from-[#d4c5a9]/20 to-[#d4c5a9]/5 hover:from-[#d4c5a9]/30 hover:to-[#d4c5a9]/10 transition-all group"
+                    >
+                      <div className="flex items-start gap-3">
+                        <div className="w-10 h-10 rounded-lg bg-[#d4c5a9] flex items-center justify-center text-xl shadow-md">
+                          🎤
+                        </div>
+                        <div className="flex-1">
+                          <h3 className="font-bold text-gray-900 mb-1 group-hover:text-[#b4a589] transition-colors">
+                            Mock Interviews
+                          </h3>
+                          <p className="text-sm text-gray-600">
+                            Real-time feedback
+                          </p>
+                        </div>
+                      </div>
+                    </motion.a>
+
+                    {/* Resume Builder */}
+                    <motion.a
+                      href="#"
+                      whileHover={{ scale: 1.02, y: -2 }}
+                      className="p-4 rounded-xl bg-gradient-to-br from-[#ffd9a3]/20 to-[#ffd9a3]/5 hover:from-[#ffd9a3]/30 hover:to-[#ffd9a3]/10 transition-all group"
+                    >
+                      <div className="flex items-start gap-3">
+                        <div className="w-10 h-10 rounded-lg bg-[#ffd9a3] flex items-center justify-center text-xl shadow-md">
+                          📄
+                        </div>
+                        <div className="flex-1">
+                          <h3 className="font-bold text-gray-900 mb-1 group-hover:text-[#dfb983] transition-colors">
+                            Resume Builder
+                          </h3>
+                          <p className="text-sm text-gray-600">
+                            ATS-optimized templates
+                          </p>
+                        </div>
+                      </div>
+                    </motion.a>
+
+                    {/* Career Roadmap */}
+                    <motion.a
+                      href="#"
+                      whileHover={{ scale: 1.02, y: -2 }}
+                      className="p-4 rounded-xl bg-gradient-to-br from-[#c7f0d8]/20 to-[#c7f0d8]/5 hover:from-[#c7f0d8]/30 hover:to-[#c7f0d8]/10 transition-all group"
+                    >
+                      <div className="flex items-start gap-3">
+                        <div className="w-10 h-10 rounded-lg bg-[#c7f0d8] flex items-center justify-center text-xl shadow-md">
+                          🗺️
+                        </div>
+                        <div className="flex-1">
+                          <h3 className="font-bold text-gray-900 mb-1 group-hover:text-[#a7d0b8] transition-colors">
+                            Career Roadmap
+                          </h3>
+                          <p className="text-sm text-gray-600">
+                            Personalized learning path
+                          </p>
+                        </div>
+                      </div>
+                    </motion.a>
+
+                    {/* Community */}
+                    <motion.a
+                      href="#"
+                      whileHover={{ scale: 1.02, y: -2 }}
+                      className="p-4 rounded-xl bg-gradient-to-br from-[#e9d5ff]/20 to-[#e9d5ff]/5 hover:from-[#e9d5ff]/30 hover:to-[#e9d5ff]/10 transition-all group"
+                    >
+                      <div className="flex items-start gap-3">
+                        <div className="w-10 h-10 rounded-lg bg-[#e9d5ff] flex items-center justify-center text-xl shadow-md">
+                          👥
+                        </div>
+                        <div className="flex-1">
+                          <h3 className="font-bold text-gray-900 mb-1 group-hover:text-[#c9b5df] transition-colors">
+                            Community
+                          </h3>
+                          <p className="text-sm text-gray-600">
+                            Connect with peers
+                          </p>
+                        </div>
+                      </div>
+                    </motion.a>
+                  </div>
+                </div>
+              </motion.div>
+            )}
+          </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
+      </motion.header>
+
+      {/* Hero Section - Sky Theme */}
+      <section ref={heroRef} className="px-6 sm:px-12 pt-8 pb-16 sm:pt-12 sm:pb-24 relative overflow-hidden">
+        {/* Quick Navigation Pills */}
+        <motion.div 
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+          className="flex flex-wrap justify-center gap-3 mb-12"
         >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
+          <a href="#why" className="px-5 py-2.5 rounded-full bg-white/70 backdrop-blur-md border border-white/80 text-sm font-medium text-gray-700 hover:bg-white/90 transition-all shadow-md flex items-center gap-2">
+            <span>❓</span> Why It Matters
+          </a>
+          <a href="#demo" className="px-5 py-2.5 rounded-full bg-white/70 backdrop-blur-md border border-white/80 text-sm font-medium text-gray-700 hover:bg-white/90 transition-all shadow-md flex items-center gap-2">
+            <span>📋</span> Live Demo
+          </a>
+          <a href="#about" className="px-5 py-2.5 rounded-full bg-white/70 backdrop-blur-md border border-white/80 text-sm font-medium text-gray-700 hover:bg-white/90 transition-all shadow-md flex items-center gap-2">
+            <span>ℹ️</span> About
+          </a>
+          <a href="#projects" className="px-5 py-2.5 rounded-full bg-white/70 backdrop-blur-md border border-white/80 text-sm font-medium text-gray-700 hover:bg-white/90 transition-all shadow-md flex items-center gap-2">
+            <span>📁</span> Mini Projects
+          </a>
+        </motion.div>
+
+        {/* Decorative clouds and elements */}
+        <div className="absolute top-20 left-10 w-40 h-20 bg-white/40 rounded-full blur-2xl"></div>
+        <div className="absolute top-40 right-20 w-60 h-24 bg-white/30 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-32 left-1/4 w-80 h-32 bg-blue-200/20 rounded-full blur-3xl"></div>
+        
+        <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 items-center relative z-10">
+          {/* Left Content - Story-driven copy */}
+          <motion.div
+            initial={{ opacity: 0, x: -50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, delay: 0.3 }}
+          >
+            <h2 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-gray-900 leading-tight mb-6">
+              Unlock Your<br />Dream Tech Role
+            </h2>
+            <p className="text-xl sm:text-2xl text-gray-700 mb-10">
+              AI-Powered Interview Prep, Made Just For You
+            </p>
+            <motion.button 
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="px-10 py-4 rounded-full bg-[#7ec4b6] hover:bg-[#6eb4a6] transition-all text-white font-semibold text-lg shadow-xl"
+            >
+              Generate My Plan
+            </motion.button>
+          </motion.div>
+
+          {/* Right - 3D Mascot with Interactive Floating Skills */}
+          <motion.div
+            className="relative flex justify-center items-center"
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8, delay: 0.5 }}
+          >
+            <div className="relative w-full max-w-md aspect-square">
+              {/* Floating Skill Icons - React */}
+              <motion.div
+                className="absolute top-[8%] left-[12%] w-16 h-16 sm:w-20 sm:h-20 cursor-pointer"
+                animate={{ 
+                  y: [0, -15, 0], 
+                  rotate: [0, 5, 0],
+                  scale: [1, 1.05, 1]
+                }}
+                whileHover={{ scale: 1.2, rotate: 15 }}
+                transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+              >
+                <div className="w-full h-full rounded-2xl bg-[#61dafb]/90 shadow-lg flex items-center justify-center backdrop-blur-sm border-2 border-white/50">
+                  <span className="text-2xl font-bold text-gray-900">⚛️</span>
+                </div>
+                <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 text-xs font-semibold text-gray-700 whitespace-nowrap">React</div>
+              </motion.div>
+              
+              {/* Python */}
+              <motion.div
+                className="absolute top-[5%] right-[8%] w-16 h-16 sm:w-20 sm:h-20 cursor-pointer"
+                animate={{ 
+                  y: [0, -20, 0], 
+                  rotate: [0, -5, 0],
+                  scale: [1, 1.05, 1]
+                }}
+                whileHover={{ scale: 1.2, rotate: -15 }}
+                transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
+              >
+                <div className="w-full h-full rounded-2xl bg-[#3776ab]/90 shadow-lg flex items-center justify-center backdrop-blur-sm border-2 border-white/50">
+                  <span className="text-xl font-bold text-white">🐍 Py</span>
+                </div>
+                <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 text-xs font-semibold text-gray-700 whitespace-nowrap">Python</div>
+              </motion.div>
+
+              {/* SQL */}
+              <motion.div
+                className="absolute top-[15%] right-[18%] w-14 h-14 sm:w-16 sm:h-16 cursor-pointer"
+                animate={{ 
+                  y: [0, -10, 0],
+                  scale: [1, 1.05, 1]
+                }}
+                whileHover={{ scale: 1.2 }}
+                transition={{ duration: 2.8, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+              >
+                <div className="w-full h-full rounded-xl bg-[#00758f]/90 shadow-lg flex items-center justify-center backdrop-blur-sm border-2 border-white/50">
+                  <span className="text-xs font-bold text-white">SQL</span>
+                </div>
+                <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 text-xs font-semibold text-gray-700 whitespace-nowrap">SQL</div>
+              </motion.div>
+
+              {/* JavaScript */}
+              <motion.div
+                className="absolute bottom-[20%] left-[8%] w-14 h-14 sm:w-16 sm:h-16 cursor-pointer"
+                animate={{ 
+                  y: [0, -12, 0],
+                  rotate: [0, 8, 0],
+                  scale: [1, 1.05, 1]
+                }}
+                whileHover={{ scale: 1.2, rotate: 15 }}
+                transition={{ duration: 3.2, repeat: Infinity, ease: "easeInOut", delay: 0.3 }}
+              >
+                <div className="w-full h-full rounded-xl bg-[#f7df1e]/90 shadow-lg flex items-center justify-center backdrop-blur-sm border-2 border-white/50">
+                  <span className="text-lg font-bold text-gray-900">JS</span>
+                </div>
+                <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 text-xs font-semibold text-gray-700 whitespace-nowrap">JavaScript</div>
+              </motion.div>
+
+              {/* Node.js */}
+              <motion.div
+                className="absolute bottom-[25%] right-[12%] w-14 h-14 sm:w-16 sm:h-16 cursor-pointer"
+                animate={{ 
+                  y: [0, -18, 0],
+                  rotate: [0, -10, 0],
+                  scale: [1, 1.05, 1]
+                }}
+                whileHover={{ scale: 1.2, rotate: -15 }}
+                transition={{ duration: 3.6, repeat: Infinity, ease: "easeInOut", delay: 0.7 }}
+              >
+                <div className="w-full h-full rounded-xl bg-[#68a063]/90 shadow-lg flex items-center justify-center backdrop-blur-sm border-2 border-white/50">
+                  <span className="text-sm font-bold text-white">Node</span>
+                </div>
+                <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 text-xs font-semibold text-gray-700 whitespace-nowrap">Node.js</div>
+              </motion.div>
+
+              {/* Robot Mascot - 3D effect */}
+              <motion.div
+                className="relative z-10"
+                animate={{ 
+                  y: [0, -10, 0], 
+                  rotate: [0, -2, 0, 2, 0],
+                }}
+                style={{
+                  transform: `perspective(1000px) rotateY(${scrollY * 0.02}deg)`
+                }}
+                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+              >
+                <Image
+                  src="/robot.png"
+                  alt="Friendly Robot Mascot"
+                  width={400}
+                  height={400}
+                  priority
+                  className="w-full h-auto drop-shadow-2xl"
+                />
+              </motion.div>
+            </div>
+          </motion.div>
+        </div>
+        
+        {/* Decorative elements */}
+        <div className="absolute top-20 left-10 w-32 h-32 bg-[#a8d5ba]/10 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-20 right-10 w-40 h-40 bg-[#d4c5a9]/10 rounded-full blur-3xl"></div>
+      </section>
+
+      {/* Why It Matters Section - Sky Theme */}
+      <section id="why" className="px-6 sm:px-12 py-20 relative overflow-hidden">
+        <div className="max-w-6xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+            className="bg-white/60 backdrop-blur-lg rounded-3xl p-8 sm:p-12 shadow-xl border border-white/80"
+          >
+            <h3 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-8">
+              Why It Matters
+            </h3>
+            
+            <div className="space-y-6">
+              <div className="flex items-start gap-4">
+                <div className="w-8 h-8 rounded-full bg-[#7ec4b6] flex items-center justify-center flex-shrink-0 mt-1">
+                  <span className="text-white font-bold text-sm">✓</span>
+                </div>
+                <div>
+                  <p className="text-lg text-gray-800 font-medium mb-2">
+                    You see 100+ job postings but don't know where to start?
+                  </p>
+                  <p className="text-gray-600">
+                    Without the right guidance, interview prep becomes overwhelming and ineffective.
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-4">
+                <div className="w-8 h-8 rounded-full bg-[#7ec4b6] flex items-center justify-center flex-shrink-0 mt-1">
+                  <span className="text-white font-bold text-sm">✓</span>
+                </div>
+                <div>
+                  <p className="text-lg text-gray-800 font-medium mb-2">
+                    Generic prep wastes your valuable time
+                  </p>
+                  <p className="text-gray-600">
+                    Our AI creates a personalized roadmap based on your target role and current skills.
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-4">
+                <div className="w-8 h-8 rounded-full bg-[#7ec4b6] flex items-center justify-center flex-shrink-0 mt-1">
+                  <span className="text-white font-bold text-sm">✓</span>
+                </div>
+                <div>
+                  <p className="text-lg text-gray-800 font-medium mb-2">
+                    Stand out in competitive interviews
+                  </p>
+                  <p className="text-gray-600">
+                    Practice with real scenarios and get instant feedback to improve continuously.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+        
+        {/* Parallax background elements */}
+        <motion.div 
+          className="absolute top-40 left-20 w-64 h-64 bg-blue-300/10 rounded-full blur-3xl"
+          style={{ y: parallaxY1 }}
+        ></motion.div>
+        <motion.div 
+          className="absolute bottom-20 right-20 w-80 h-80 bg-cyan-200/10 rounded-full blur-3xl"
+          style={{ y: parallaxY2 }}
+        ></motion.div>
+      </section>
+
+      {/* Live Demo Input Section - Sky Theme */}
+      <section id="demo" className="px-6 sm:px-12 py-20 relative overflow-hidden">
+        <div className="max-w-5xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+            className="bg-white/70 backdrop-blur-lg rounded-3xl shadow-2xl p-8 sm:p-12 border border-white/90"
+          >
+            <div className="text-center mb-8">
+              <h3 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
+                Live Demo
+              </h3>
+              <p className="text-lg text-gray-700">
+                Paste a job description and watch our AI analyze it in real-time
+              </p>
+            </div>
+
+            <div className="space-y-6">
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  Paste a Sample Job Description
+                </label>
+                <textarea
+                  className="w-full h-40 p-4 rounded-xl border-2 border-blue-200 focus:border-[#7ec4b6] focus:outline-none resize-none bg-white/90 backdrop-blur-sm transition-all shadow-sm"
+                  placeholder="Example: We're looking for a Senior Full Stack Developer with 3+ years experience in React, Node.js, and PostgreSQL..."
+                  value={jobDescription}
+                  onChange={(e) => setJobDescription(e.target.value)}
+                />
+              </div>
+              
+              <div className="flex flex-col sm:flex-row gap-4">
+                <input
+                  type="text"
+                  className="flex-1 p-4 rounded-xl border-2 border-blue-200 focus:border-[#7ec4b6] focus:outline-none bg-white/90 backdrop-blur-sm shadow-sm"
+                  placeholder="Analyse"
+                  readOnly
+                  value={isAnalyzing ? "Analyzing skills, requirements, and creating your plan..." : ""}
+                />
+                <button
+                  onClick={handleAnalyze}
+                  disabled={isAnalyzing || !jobDescription.trim()}
+                  className="px-8 py-4 rounded-xl bg-[#7ec4b6] hover:bg-[#6eb4a6] transition-all hover:scale-105 text-white font-semibold disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 shadow-lg"
+                >
+                  {isAnalyzing ? (
+                    <span className="flex items-center gap-2">
+                      <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none"></circle>
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                      </svg>
+                      Analyzing...
+                    </span>
+                  ) : "Analyse"}
+                </button>
+              </div>
+
+              {/* Demo Results Preview */}
+              {isAnalyzing && (
+                <motion.div
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: "auto" }}
+                  className="bg-[#a8d5ba]/20 rounded-xl p-6 border-2 border-[#a8d5ba]/50"
+                >
+                  <h4 className="font-semibold text-gray-900 mb-3">Detected Skills:</h4>
+                  <div className="flex flex-wrap gap-2">
+                    {["React", "Node.js", "PostgreSQL", "REST APIs", "Git"].map((skill, i) => (
+                      <motion.span
+                        key={skill}
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ delay: i * 0.1 }}
+                        className="px-3 py-1 bg-white rounded-full text-sm font-medium text-gray-700 shadow-sm"
+                      >
+                        {skill}
+                      </motion.span>
+                    ))}
+                  </div>
+                </motion.div>
+              )}
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Footer - Social links, branding, quick navigation */}
+      <footer className="px-6 sm:px-12 py-12 border-t border-blue-200/30 bg-gradient-to-b from-transparent to-blue-100/20">
+        <div className="max-w-7xl mx-auto">
+          {/* Top section */}
+          <div className="grid md:grid-cols-4 gap-8 mb-12">
+            {/* Branding */}
+            <div className="md:col-span-2">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#a8d5ba] to-[#7ba8d4] flex items-center justify-center shadow-lg">
+                  <span className="text-lg">🚀</span>
+                </div>
+                <span className="text-2xl font-bold text-gray-800">Project Vibe</span>
+              </div>
+              <p className="text-gray-600 max-w-sm mb-4">
+                Empowering tech professionals to land their dream roles through AI-powered interview preparation.
+              </p>
+              {/* Social Links */}
+              <div className="flex gap-4">
+                <a href="#" className="w-10 h-10 rounded-full bg-white/60 hover:bg-white flex items-center justify-center text-gray-600 hover:text-[#1DA1F2] transition-all hover:scale-110 shadow-sm">
+                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"></path>
+                  </svg>
+                </a>
+                <a href="#" className="w-10 h-10 rounded-full bg-white/60 hover:bg-white flex items-center justify-center text-gray-600 hover:text-[#0A66C2] transition-all hover:scale-110 shadow-sm">
+                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"></path>
+                    <circle cx="4" cy="4" r="2"></circle>
+                  </svg>
+                </a>
+                <a href="#" className="w-10 h-10 rounded-full bg-white/60 hover:bg-white flex items-center justify-center text-gray-600 hover:text-[#333] transition-all hover:scale-110 shadow-sm">
+                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"></path>
+                  </svg>
+                </a>
+                <a href="#" className="w-10 h-10 rounded-full bg-white/60 hover:bg-white flex items-center justify-center text-gray-600 hover:text-[#FF0000] transition-all hover:scale-110 shadow-sm">
+                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"></path>
+                  </svg>
+                </a>
+              </div>
+            </div>
+
+            {/* Quick Navigation */}
+            <div>
+              <h4 className="font-bold text-gray-900 mb-4">Quick Links</h4>
+              <ul className="space-y-2">
+                <li><a href="#" className="text-gray-600 hover:text-gray-900 transition-colors">Home</a></li>
+                <li><a href="#" className="text-gray-600 hover:text-gray-900 transition-colors">Features</a></li>
+                <li><a href="#" className="text-gray-600 hover:text-gray-900 transition-colors">Pricing</a></li>
+                <li><a href="#" className="text-gray-600 hover:text-gray-900 transition-colors">Success Stories</a></li>
+              </ul>
+            </div>
+
+            {/* Resources */}
+            <div>
+              <h4 className="font-bold text-gray-900 mb-4">Resources</h4>
+              <ul className="space-y-2">
+                <li><a href="#" className="text-gray-600 hover:text-gray-900 transition-colors">About Us</a></li>
+                <li><a href="#" className="text-gray-600 hover:text-gray-900 transition-colors">Blog</a></li>
+                <li><a href="#" className="text-gray-600 hover:text-gray-900 transition-colors">Privacy Policy</a></li>
+                <li><a href="#" className="text-gray-600 hover:text-gray-900 transition-colors">Terms of Service</a></li>
+              </ul>
+            </div>
+          </div>
+
+          {/* Bottom section */}
+          <div className="pt-8 border-t border-gray-300/50 flex flex-col sm:flex-row justify-between items-center gap-4">
+            <p className="text-gray-600 text-sm">
+              © 2025 Project Vibe. All rights reserved.
+            </p>
+            <div className="flex gap-6 text-sm">
+              <a href="#" className="text-gray-600 hover:text-gray-900 transition-colors">Contact</a>
+              <a href="#" className="text-gray-600 hover:text-gray-900 transition-colors">Support</a>
+              <a href="#" className="text-gray-600 hover:text-gray-900 transition-colors">Careers</a>
+            </div>
+          </div>
+        </div>
       </footer>
+      </>
+      )}
     </div>
   );
 }
