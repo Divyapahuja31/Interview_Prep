@@ -220,7 +220,7 @@ export default function Home() {
                   <div className="grid grid-cols-3 gap-4 max-w-5xl mx-auto">
                     {/* AI Interview Prep */}
                     <motion.a
-                      href="#"
+                      href="/generate"
                       whileHover={{ scale: 1.02, y: -2 }}
                       className="p-4 rounded-xl bg-gradient-to-br from-[#a8d5ba]/20 to-[#a8d5ba]/5 hover:from-[#a8d5ba]/30 hover:to-[#a8d5ba]/10 transition-all group"
                     >
@@ -241,7 +241,7 @@ export default function Home() {
 
                     {/* Skill Assessment */}
                     <motion.a
-                      href="#"
+                      href="/leaderboard"
                       whileHover={{ scale: 1.02, y: -2 }}
                       className="p-4 rounded-xl bg-gradient-to-br from-[#7ba8d4]/20 to-[#7ba8d4]/5 hover:from-[#7ba8d4]/30 hover:to-[#7ba8d4]/10 transition-all group"
                     >
@@ -262,7 +262,7 @@ export default function Home() {
 
                     {/* Mock Interviews */}
                     <motion.a
-                      href="#"
+                      href="/generate"
                       whileHover={{ scale: 1.02, y: -2 }}
                       className="p-4 rounded-xl bg-gradient-to-br from-[#d4c5a9]/20 to-[#d4c5a9]/5 hover:from-[#d4c5a9]/30 hover:to-[#d4c5a9]/10 transition-all group"
                     >
@@ -283,7 +283,7 @@ export default function Home() {
 
                     {/* Resume Builder */}
                     <motion.a
-                      href="#"
+                      href="/generate"
                       whileHover={{ scale: 1.02, y: -2 }}
                       className="p-4 rounded-xl bg-gradient-to-br from-[#ffd9a3]/20 to-[#ffd9a3]/5 hover:from-[#ffd9a3]/30 hover:to-[#ffd9a3]/10 transition-all group"
                     >
@@ -304,7 +304,7 @@ export default function Home() {
 
                     {/* Career Roadmap */}
                     <motion.a
-                      href="#"
+                      href="/generate"
                       whileHover={{ scale: 1.02, y: -2 }}
                       className="p-4 rounded-xl bg-gradient-to-br from-[#c7f0d8]/20 to-[#c7f0d8]/5 hover:from-[#c7f0d8]/30 hover:to-[#c7f0d8]/10 transition-all group"
                     >
@@ -325,7 +325,7 @@ export default function Home() {
 
                     {/* Community */}
                     <motion.a
-                      href="#"
+                      href="/leaderboard"
                       whileHover={{ scale: 1.02, y: -2 }}
                       className="p-4 rounded-xl bg-gradient-to-br from-[#e9d5ff]/20 to-[#e9d5ff]/5 hover:from-[#e9d5ff]/30 hover:to-[#e9d5ff]/10 transition-all group"
                     >
@@ -371,7 +371,7 @@ export default function Home() {
                   <div className="grid grid-cols-3 gap-4 max-w-5xl mx-auto">
                     {/* Documentation */}
                     <motion.a
-                      href="#"
+                      href="/about"
                       whileHover={{ scale: 1.02, y: -2 }}
                       className="p-4 rounded-xl bg-gradient-to-br from-[#ffd9a3]/20 to-[#ffd9a3]/5 hover:from-[#ffd9a3]/30 hover:to-[#ffd9a3]/10 transition-all group"
                     >
@@ -392,7 +392,7 @@ export default function Home() {
 
                     {/* Video Tutorials */}
                     <motion.a
-                      href="#"
+                      href="/generate"
                       whileHover={{ scale: 1.02, y: -2 }}
                       className="p-4 rounded-xl bg-gradient-to-br from-[#ff9999]/20 to-[#ff9999]/5 hover:from-[#ff9999]/30 hover:to-[#ff9999]/10 transition-all group"
                     >
@@ -413,7 +413,7 @@ export default function Home() {
 
                     {/* Blog & Articles */}
                     <motion.a
-                      href="#"
+                      href="/about"
                       whileHover={{ scale: 1.02, y: -2 }}
                       className="p-4 rounded-xl bg-gradient-to-br from-[#b8e0d2]/20 to-[#b8e0d2]/5 hover:from-[#b8e0d2]/30 hover:to-[#b8e0d2]/10 transition-all group"
                     >
@@ -434,7 +434,7 @@ export default function Home() {
 
                     {/* Interview Tips */}
                     <motion.a
-                      href="#"
+                      href="/generate"
                       whileHover={{ scale: 1.02, y: -2 }}
                       className="p-4 rounded-xl bg-gradient-to-br from-[#c9b5ff]/20 to-[#c9b5ff]/5 hover:from-[#c9b5ff]/30 hover:to-[#c9b5ff]/10 transition-all group"
                     >
@@ -476,7 +476,7 @@ export default function Home() {
 
                     {/* Community Forum */}
                     <motion.a
-                      href="#"
+                      href="/leaderboard"
                       whileHover={{ scale: 1.02, y: -2 }}
                       className="p-4 rounded-xl bg-gradient-to-br from-[#ffd700]/20 to-[#ffd700]/5 hover:from-[#ffd700]/30 hover:to-[#ffd700]/10 transition-all group"
                     >
