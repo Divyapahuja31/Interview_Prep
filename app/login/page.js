@@ -2,22 +2,31 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
 import Link from "next/link";
+import { signIn, useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { data: session, status } = useSession();
+  const router = useRouter();
+
+  // Redirect if already logged in
+  if (status === "authenticated") {
+    router.push("/dashboard");
+    return null;
+  }
 
   const handleLogin = (e) => {
     e.preventDefault();
-    // Handle login logic here
+    // Handle traditional login logic here
     console.log("Login:", { email, password });
   };
 
-  const handleGoogleLogin = () => {
-    // For now, redirect to dashboard as a demo
-    // In production, this would integrate with Google OAuth
-    alert("Google Sign-In would be integrated here. For demo purposes, redirecting to dashboard...");
-    window.location.href = "/dashboard";
+
+  const handleGoogleSignIn = () => {
+    signIn("google", { callbackUrl: "/dashboard" });
+
   };
 
   return (
@@ -124,9 +133,10 @@ export default function Login() {
             <motion.button
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
-              onClick={handleGoogleLogin}
-              type="button"
-              className="w-full px-6 py-3 rounded-xl bg-white hover:bg-gray-50 border-2 border-gray-300 text-gray-700 font-medium transition-all flex items-center justify-center gap-3 cursor-pointer"
+              onClick={handleGoogleSignIn}
+              className="w-full px-6 py-3 rounded-xl bg-white hover:bg-gray-50 border-2 border-gray-300 text-gray-700 font-medium transition-all flex items-center justify-center gap-3"
+
+
             >
               <svg className="w-5 h-5" viewBox="0 0 24 24">
                 <path fill="currentColor" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>

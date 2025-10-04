@@ -3,13 +3,27 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import Sidebar from "../components/Sidebar";
 import { useState } from "react";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 export default function Dashboard() {
+  const { data: session, status } = useSession();
+  const router = useRouter();
   const [skills] = useState([
     { name: "React", progress: 75, color: "#FF6B9D" },
     { name: "SQL", progress: 40, color: "#FFA94D" },
     { name: "Python", progress: 20, color: "#845EC2" },
   ]);
+
+  // Redirect to login if not authenticated
+  if (status === "loading") {
+    return <div>Loading...</div>;
+  }
+
+  if (status === "unauthenticated") {
+    router.push("/login");
+    return null;
+  }
 
   return (
     <div className="flex min-h-screen" style={{ background: "linear-gradient(180deg, #a8d5e2 0%, #e8f4f8 50%, #fef5e7 100%)" }}>
@@ -19,26 +33,17 @@ export default function Dashboard() {
         {/* Header */}
         <div className="flex justify-between items-center mb-8">
           <div>
-            <h1 className="text-4xl font-bold text-gray-900 mb-2">Current Prep Plan</h1>
+            <h1 className="text-4xl font-bold text-gray-900 mb-2">Welcome back, {session?.user?.name}!</h1>
             <p className="text-xl text-gray-700">Your Tech Interview Roadmap</p>
           </div>
           <div className="flex gap-3">
-            <Link href="/login">
-              <motion.button 
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="px-5 py-2 rounded-full bg-white/70 backdrop-blur-md border border-white/80 text-sm font-medium text-gray-700 hover:bg-white/90 transition-all"
-              >
-                Login
-              </motion.button>
-            </Link>
-            <Link href="/signup">
+            <Link href="/generate">
               <motion.button 
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 className="px-5 py-2 rounded-full bg-[#7ec4b6] hover:bg-[#6eb4a6] text-white font-semibold transition-all"
               >
-                Sign Up
+                Generate New Plan
               </motion.button>
             </Link>
           </div>
