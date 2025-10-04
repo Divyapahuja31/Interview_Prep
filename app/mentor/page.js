@@ -10,26 +10,200 @@ export default function AIMentor() {
   const [input, setInput] = useState("");
   const [isTyping, setIsTyping] = useState(false);
 
+  const getAIResponse = (question) => {
+    const lowerQuestion = question.toLowerCase();
+    
+    // React Hooks responses
+    if (lowerQuestion.includes('react') && lowerQuestion.includes('hook')) {
+      return `Great question about React Hooks! 🎯
+
+React Hooks are functions that let you use state and other React features in functional components. Here are the key hooks:
+
+**useState** - Manages component state
+Example: const [count, setCount] = useState(0);
+
+**useEffect** - Handles side effects (API calls, subscriptions)
+Example: useEffect(() => { fetchData(); }, []);
+
+**useContext** - Accesses context values without prop drilling
+
+**useRef** - Creates mutable references that persist across renders
+
+**Key Benefits:**
+✓ Write cleaner, more reusable code
+✓ Avoid class components complexity
+✓ Better code organization
+✓ Easier to test and maintain
+
+Want to dive deeper into any specific hook? Just ask!`;
+    }
+    
+    // SQL Joins responses
+    if (lowerQuestion.includes('sql') && lowerQuestion.includes('join')) {
+      return `Let me explain SQL Joins! 📊
+
+SQL Joins combine rows from two or more tables based on related columns. Here are the main types:
+
+**INNER JOIN** - Returns matching rows from both tables
+SELECT * FROM users INNER JOIN orders ON users.id = orders.user_id;
+
+**LEFT JOIN** - Returns all rows from left table + matching rows from right
+SELECT * FROM customers LEFT JOIN orders ON customers.id = orders.customer_id;
+
+**RIGHT JOIN** - Returns all rows from right table + matching rows from left
+
+**FULL OUTER JOIN** - Returns all rows when there's a match in either table
+
+**Quick Tips:**
+✓ INNER JOIN is most common and fastest
+✓ Use LEFT JOIN when you need all records from the first table
+✓ Always index foreign key columns for better performance
+✓ Understand the difference between WHERE and ON clauses
+
+Need examples for a specific join type? Let me know!`;
+    }
+    
+    // Python responses
+    if (lowerQuestion.includes('python')) {
+      return `Python Best Practices for Interviews! 🐍
+
+Here are essential tips to ace Python interviews:
+
+**1. Follow PEP 8 Style Guide**
+- Use 4 spaces for indentation
+- snake_case for functions/variables
+- PascalCase for classes
+
+**2. Use List Comprehensions**
+squares = [x**2 for x in range(10)]
+
+**3. Leverage Built-in Functions**
+Use sum(), max(), min(), enumerate() instead of loops
+
+**4. Handle Exceptions Properly**
+try:
+    risky_operation()
+except ValueError as e:
+    handle_error(e)
+
+**5. Use Type Hints**
+def greet(name: str) -> str:
+    return f"Hello, {name}"
+
+**Common Patterns:**
+✓ Two pointers technique
+✓ Hash maps for O(1) lookups
+✓ Collections module (Counter, defaultdict)
+✓ Generator expressions for memory efficiency
+
+Want to practice specific Python concepts?`;
+    }
+    
+    // Interview Tips responses
+    if (lowerQuestion.includes('interview') && lowerQuestion.includes('tip')) {
+      return `Top Interview Tips! 💼
+
+**Before the Interview:**
+✓ Research the company thoroughly
+✓ Practice coding problems on LeetCode
+✓ Prepare STAR method stories
+✓ Review your resume and projects
+
+**During the Interview:**
+✓ Think out loud - explain your reasoning
+✓ Ask clarifying questions
+✓ Start with a brute force solution, then optimize
+✓ Test your code with edge cases
+✓ Discuss time and space complexity
+
+**Technical Interview Strategy:**
+1. Understand the problem completely
+2. Think of examples and edge cases
+3. Explain your approach before coding
+4. Write clean, readable code
+5. Test and debug systematically
+
+**Behavioral Interview:**
+Use the STAR method:
+- Situation: Set the context
+- Task: Explain the challenge
+- Action: Describe what YOU did
+- Result: Share outcomes with metrics
+
+Remember: Interviewers want you to succeed! Show enthusiasm and be authentic.
+
+Need help with a specific interview type?`;
+    }
+    
+    // System Design responses
+    if (lowerQuestion.includes('system') && lowerQuestion.includes('design')) {
+      return `System Design Interview Guide! 🏗️
+
+**Framework: RESHADED**
+R - Requirements (functional & non-functional)
+E - Estimations (scale, storage, bandwidth)
+S - Storage (database selection)
+H - High-level design (architecture)
+A - API design (key endpoints)
+D - Detailed design (deep dive)
+E - Evaluation (trade-offs)
+D - Discuss bottlenecks
+
+**Key Concepts:**
+✓ CAP Theorem (Consistency, Availability, Partition Tolerance)
+✓ Load Balancing (Round Robin, Least Connections)
+✓ Caching (Redis, Memcached)
+✓ Database Sharding
+✓ Message Queues (Kafka, RabbitMQ)
+✓ CDN for static content
+
+**Common Questions:**
+- Design URL Shortener
+- Design Twitter Feed
+- Design YouTube
+- Design Uber
+
+Start simple, then iterate. Always discuss trade-offs!
+
+Want to practice a specific system design problem?`;
+    }
+    
+    // Default response
+    return `That's a great question! 🌟
+
+I can help you with:
+• React Hooks and components
+• SQL queries and joins
+• Python programming tips
+• Interview preparation strategies
+• System design concepts
+• Data structures and algorithms
+
+Try asking me about:
+- "Explain React Hooks"
+- "SQL Joins Tutorial"
+- "Python Best Practices"
+- "Interview Tips"
+- "System Design basics"
+
+What would you like to learn about?`;
+  };
+
   const handleSend = () => {
     if (!input.trim()) return;
     
+    const userMessage = input;
     // Add user message
-    setMessages(prev => [...prev, { type: "user", text: input }]);
+    setMessages(prev => [...prev, { type: "user", text: userMessage }]);
     setInput("");
     setIsTyping(true);
 
-    // Simulate AI response
+    // Simulate AI response with intelligent answers
     setTimeout(() => {
-      const responses = [
-        "Great question! Let me help you with that...",
-        "Here's what you need to know about React Hooks...",
-        "SQL joins can be tricky. Let's break it down step by step.",
-        "That's an excellent topic to master for interviews!",
-      ];
-      const randomResponse = responses[Math.floor(Math.random() * responses.length)];
-      setMessages(prev => [...prev, { type: "bot", text: randomResponse }]);
+      const response = getAIResponse(userMessage);
+      setMessages(prev => [...prev, { type: "bot", text: response }]);
       setIsTyping(false);
-    }, 2000);
+    }, 1500);
   };
 
   return (
@@ -130,7 +304,7 @@ export default function AIMentor() {
                 onChange={(e) => setInput(e.target.value)}
                 onKeyPress={(e) => e.key === "Enter" && handleSend()}
                 placeholder="Ask me anything about interview prep..."
-                className="flex-1 px-6 py-4 rounded-full border-2 border-gray-300 focus:border-[#7ec4b6] focus:outline-none bg-white/90 backdrop-blur-sm shadow-sm"
+                className="flex-1 px-6 py-4 rounded-full border-2 border-gray-300 focus:border-[#7ec4b6] focus:outline-none bg-white/90 backdrop-blur-sm shadow-sm text-gray-900"
               />
               <motion.button
                 whileHover={{ scale: 1.05 }}
