@@ -15,11 +15,11 @@ export default function Leaderboard() {
     <div className="flex min-h-screen" style={{ background: "linear-gradient(180deg, #a8d5e2 0%, #e8f4f8 50%, #fef5e7 100%)" }}>
       <Sidebar />
       
-      <main className="flex-1 p-8">
-        <div className="flex justify-between items-center mb-8">
+      <main className="flex-1 p-4 sm:p-6 lg:p-8 pt-20 xl:pt-8">
+        <div className="flex justify-between items-center mb-6 sm:mb-8">
           <div>
-            <h1 className="text-4xl font-bold text-gray-900 mb-2">Leaderboard</h1>
-            <p className="text-xl text-gray-700">Compete with other learners</p>
+            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-2">Leaderboard</h1>
+            <p className="text-base sm:text-lg lg:text-xl text-gray-700">Compete with other learners</p>
           </div>
         </div>
 
@@ -28,7 +28,7 @@ export default function Leaderboard() {
           animate={{ opacity: 1, y: 0 }}
           className="max-w-3xl mx-auto"
         >
-          <div className="bg-white/70 backdrop-blur-lg rounded-3xl p-8 shadow-xl border border-white/80">
+          <div className="bg-white/70 backdrop-blur-lg rounded-2xl sm:rounded-3xl p-4 sm:p-6 lg:p-8 shadow-xl border border-white/80">
             <div className="space-y-4">
               {topUsers.map((user, index) => (
                 <motion.div

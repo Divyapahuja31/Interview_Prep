@@ -12,6 +12,7 @@ export default function Home() {
   const [showContent, setShowContent] = useState(false);
   const [showMegaMenu, setShowMegaMenu] = useState(false);
   const [showResourcesMenu, setShowResourcesMenu] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const heroRef = useRef(null);
   const { scrollYProgress } = useScroll();
   const parallaxY = useTransform(scrollYProgress, [0, 1], [0, -100]);
@@ -152,8 +153,22 @@ export default function Home() {
                   </a>
                 </nav>
 
+                {/* Mobile Menu Button */}
+                <button
+                  onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                  className="md:hidden p-2 rounded-lg hover:bg-white/40 transition-colors"
+                >
+                  <svg className="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    {mobileMenuOpen ? (
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                    ) : (
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                    )}
+                  </svg>
+                </button>
+
                 {/* Right Side Buttons - Compact */}
-                <div className="flex items-center gap-2">
+                <div className="hidden md:flex items-center gap-2">
                   <Link href="/login">
                     <motion.button 
                       whileHover={{ scale: 1.05, y: -1 }}
@@ -351,6 +366,53 @@ export default function Home() {
               </motion.div>
             )}
 
+            {/* Mobile Menu */}
+            {mobileMenuOpen && (
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.2 }}
+                className="absolute top-full left-0 right-0 mt-2 md:hidden"
+              >
+                <div 
+                  className="rounded-2xl border border-white/50 p-4"
+                  style={{
+                    background: "rgba(255, 255, 255, 0.95)",
+                    backdropFilter: "blur(30px) saturate(180%)",
+                    WebkitBackdropFilter: "blur(30px) saturate(180%)",
+                    boxShadow: "0 20px 60px rgba(0, 0, 0, 0.15)",
+                  }}
+                >
+                  <nav className="space-y-2">
+                    <a href="/generate" className="block px-4 py-3 text-sm font-medium text-gray-700 hover:bg-white/60 rounded-lg transition-colors">
+                      Features
+                    </a>
+                    <a href="/about" className="block px-4 py-3 text-sm font-medium text-gray-700 hover:bg-white/60 rounded-lg transition-colors">
+                      Resources
+                    </a>
+                    <a href="/blog" className="block px-4 py-3 text-sm font-medium text-gray-700 hover:bg-white/60 rounded-lg transition-colors">
+                      Blog
+                    </a>
+                    <a href="/about" className="block px-4 py-3 text-sm font-medium text-gray-700 hover:bg-white/60 rounded-lg transition-colors">
+                      About
+                    </a>
+                    <div className="border-t border-gray-200 my-2"></div>
+                    <Link href="/login" className="block">
+                      <button className="w-full px-4 py-3 text-sm font-medium text-gray-800 bg-white/50 hover:bg-white/80 rounded-lg transition-colors text-left">
+                        Login
+                      </button>
+                    </Link>
+                    <Link href="/generate" className="block">
+                      <button className="w-full px-4 py-3 text-sm font-semibold text-white bg-gradient-to-r from-[#1a1a1a] to-[#2d2d2d] hover:from-[#2d2d2d] hover:to-[#1a1a1a] rounded-lg transition-colors text-left">
+                        Try Free
+                      </button>
+                    </Link>
+                  </nav>
+                </div>
+              </motion.div>
+            )}
+
             {/* Resources Mega Menu Dropdown */}
             {showResourcesMenu && (
               <motion.div
@@ -506,24 +568,24 @@ export default function Home() {
       </motion.header>
 
       {/* Hero Section - Sky Theme */}
-      <section ref={heroRef} className="px-6 sm:px-12 pt-8 pb-16 sm:pt-12 sm:pb-24 relative overflow-hidden">
+      <section ref={heroRef} className="px-4 sm:px-6 md:px-12 pt-8 pb-12 sm:pt-12 sm:pb-16 md:pb-24 relative overflow-hidden">
         {/* Quick Navigation Pills */}
         <motion.div 
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="flex flex-wrap justify-center gap-3 mb-12"
+          className="flex flex-wrap justify-center gap-2 sm:gap-3 mb-8 sm:mb-12 px-4"
         >
-          <a href="#why" className="px-5 py-2.5 rounded-full bg-white/70 backdrop-blur-md border border-white/80 text-sm font-medium text-gray-700 hover:bg-white/90 transition-all shadow-md flex items-center gap-2">
+          <a href="#why" className="px-3 sm:px-5 py-2 sm:py-2.5 rounded-full bg-white/70 backdrop-blur-md border border-white/80 text-xs sm:text-sm font-medium text-gray-700 hover:bg-white/90 transition-all shadow-md flex items-center gap-1 sm:gap-2">
             <span>❓</span> Why It Matters
           </a>
-          <a href="#demo" className="px-5 py-2.5 rounded-full bg-white/70 backdrop-blur-md border border-white/80 text-sm font-medium text-gray-700 hover:bg-white/90 transition-all shadow-md flex items-center gap-2">
+          <a href="#demo" className="px-3 sm:px-5 py-2 sm:py-2.5 rounded-full bg-white/70 backdrop-blur-md border border-white/80 text-xs sm:text-sm font-medium text-gray-700 hover:bg-white/90 transition-all shadow-md flex items-center gap-1 sm:gap-2">
             <span>📋</span> Live Demo
           </a>
-          <a href="/about" className="px-5 py-2.5 rounded-full bg-white/70 backdrop-blur-md border border-white/80 text-sm font-medium text-gray-700 hover:bg-white/90 transition-all shadow-md flex items-center gap-2">
+          <a href="/about" className="px-3 sm:px-5 py-2 sm:py-2.5 rounded-full bg-white/70 backdrop-blur-md border border-white/80 text-xs sm:text-sm font-medium text-gray-700 hover:bg-white/90 transition-all shadow-md flex items-center gap-1 sm:gap-2">
             <span>ℹ️</span> About
           </a>
-          <a href="#projects" className="px-5 py-2.5 rounded-full bg-white/70 backdrop-blur-md border border-white/80 text-sm font-medium text-gray-700 hover:bg-white/90 transition-all shadow-md flex items-center gap-2">
+          <a href="#projects" className="px-3 sm:px-5 py-2 sm:py-2.5 rounded-full bg-white/70 backdrop-blur-md border border-white/80 text-xs sm:text-sm font-medium text-gray-700 hover:bg-white/90 transition-all shadow-md flex items-center gap-1 sm:gap-2">
             <span>📁</span> Mini Projects
           </a>
         </motion.div>
@@ -533,24 +595,24 @@ export default function Home() {
         <div className="absolute top-40 right-20 w-60 h-24 bg-white/30 rounded-full blur-3xl"></div>
         <div className="absolute bottom-32 left-1/4 w-80 h-32 bg-blue-200/20 rounded-full blur-3xl"></div>
         
-        <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 items-center relative z-10">
+        <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-8 lg:gap-12 items-center relative z-10">
           {/* Left Content - Story-driven copy */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.3 }}
           >
-            <h2 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-gray-900 leading-tight mb-6">
+            <h2 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-gray-900 leading-tight mb-4 sm:mb-6">
               Unlock Your<br />Dream Tech Role
             </h2>
-            <p className="text-xl sm:text-2xl text-gray-700 mb-10">
+            <p className="text-base sm:text-xl md:text-2xl text-gray-700 mb-6 sm:mb-10">
               AI-Powered Interview Prep, Made Just For You
             </p>
             <motion.button 
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => window.location.href = '/generate'}
-              className="px-10 py-4 rounded-full bg-[#7ec4b6] hover:bg-[#6eb4a6] transition-all text-white font-semibold text-lg shadow-xl cursor-pointer"
+              className="px-6 sm:px-10 py-3 sm:py-4 rounded-full bg-[#7ec4b6] hover:bg-[#6eb4a6] transition-all text-white font-semibold text-base sm:text-lg shadow-xl cursor-pointer w-full sm:w-auto text-center"
             >
               Generate My Plan
             </motion.button>
@@ -588,57 +650,57 @@ export default function Home() {
       </section>
 
       {/* Why It Matters Section - Sky Theme */}
-      <section id="why" className="px-6 sm:px-12 py-20 relative overflow-hidden">
+      <section id="why" className="px-4 sm:px-6 md:px-12 py-12 sm:py-16 md:py-20 relative overflow-hidden">
         <div className="max-w-6xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
-            className="bg-white/60 backdrop-blur-lg rounded-3xl p-8 sm:p-12 shadow-xl border border-white/80"
+            className="bg-white/60 backdrop-blur-lg rounded-2xl sm:rounded-3xl p-6 sm:p-8 md:p-12 shadow-xl border border-white/80"
           >
-            <h3 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-8">
+            <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-6 sm:mb-8">
               Why It Matters
             </h3>
             
-            <div className="space-y-6">
-              <div className="flex items-start gap-4">
-                <div className="w-8 h-8 rounded-full bg-[#7ec4b6] flex items-center justify-center flex-shrink-0 mt-1">
-                  <span className="text-white font-bold text-sm">✓</span>
+            <div className="space-y-4 sm:space-y-6">
+              <div className="flex items-start gap-3 sm:gap-4">
+                <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-[#7ec4b6] flex items-center justify-center flex-shrink-0 mt-1">
+                  <span className="text-white font-bold text-xs sm:text-sm">✓</span>
                 </div>
                 <div>
-                  <p className="text-lg text-gray-800 font-medium mb-2">
+                  <p className="text-base sm:text-lg text-gray-800 font-medium mb-2">
                     You see 100+ job postings but don't know where to start?
                   </p>
-                  <p className="text-gray-600">
+                  <p className="text-sm sm:text-base text-gray-600">
                     Without the right guidance, interview prep becomes overwhelming and ineffective.
                   </p>
                 </div>
               </div>
 
-              <div className="flex items-start gap-4">
-                <div className="w-8 h-8 rounded-full bg-[#7ec4b6] flex items-center justify-center flex-shrink-0 mt-1">
-                  <span className="text-white font-bold text-sm">✓</span>
+              <div className="flex items-start gap-3 sm:gap-4">
+                <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-[#7ec4b6] flex items-center justify-center flex-shrink-0 mt-1">
+                  <span className="text-white font-bold text-xs sm:text-sm">✓</span>
                 </div>
                 <div>
-                  <p className="text-lg text-gray-800 font-medium mb-2">
+                  <p className="text-base sm:text-lg text-gray-800 font-medium mb-2">
                     Generic prep wastes your valuable time
                   </p>
-                  <p className="text-gray-600">
+                  <p className="text-sm sm:text-base text-gray-600">
                     Our AI creates a personalized roadmap based on your target role and current skills.
                   </p>
                 </div>
               </div>
 
-              <div className="flex items-start gap-4">
-                <div className="w-8 h-8 rounded-full bg-[#7ec4b6] flex items-center justify-center flex-shrink-0 mt-1">
-                  <span className="text-white font-bold text-sm">✓</span>
+              <div className="flex items-start gap-3 sm:gap-4">
+                <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-[#7ec4b6] flex items-center justify-center flex-shrink-0 mt-1">
+                  <span className="text-white font-bold text-xs sm:text-sm">✓</span>
                 </div>
                 <div>
-                  <p className="text-lg text-gray-800 font-medium mb-2">
+                  <p className="text-base sm:text-lg text-gray-800 font-medium mb-2">
                     Stand out in competitive interviews
                   </p>
-                  <p className="text-gray-600">
+                  <p className="text-sm sm:text-base text-gray-600">
                     Practice with real scenarios and get instant feedback to improve continuously.
                   </p>
                 </div>
@@ -659,41 +721,41 @@ export default function Home() {
       </section>
 
       {/* Live Demo Input Section - Sky Theme */}
-      <section id="demo" className="px-6 sm:px-12 py-20 relative overflow-hidden">
+      <section id="demo" className="px-4 sm:px-6 md:px-12 py-12 sm:py-16 md:py-20 relative overflow-hidden">
         <div className="max-w-5xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
-            className="bg-white/70 backdrop-blur-lg rounded-3xl shadow-2xl p-8 sm:p-12 border border-white/90"
+            className="bg-white/70 backdrop-blur-lg rounded-2xl sm:rounded-3xl shadow-2xl p-6 sm:p-8 md:p-12 border border-white/90"
           >
-            <div className="text-center mb-8">
-              <h3 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
+            <div className="text-center mb-6 sm:mb-8">
+              <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-3 sm:mb-4">
                 Live Demo
               </h3>
-              <p className="text-lg text-gray-700">
+              <p className="text-sm sm:text-base md:text-lg text-gray-700">
                 Paste a job description and watch our AI analyze it in real-time
               </p>
             </div>
 
-            <div className="space-y-6">
+            <div className="space-y-4 sm:space-y-6">
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label className="block text-xs sm:text-sm font-semibold text-gray-700 mb-2">
                   Paste a Sample Job Description
                 </label>
                 <textarea
-                  className="w-full h-40 p-4 rounded-xl border-2 border-blue-200 focus:border-[#7ec4b6] focus:outline-none resize-none bg-white/90 backdrop-blur-sm transition-all shadow-sm text-gray-900"
+                  className="w-full h-32 sm:h-40 p-3 sm:p-4 rounded-xl border-2 border-blue-200 focus:border-[#7ec4b6] focus:outline-none resize-none bg-white/90 backdrop-blur-sm transition-all shadow-sm text-sm sm:text-base text-gray-900"
                   placeholder="Example: We're looking for a Senior Full Stack Developer with 3+ years experience in React, Node.js, and PostgreSQL..."
                   value={jobDescription}
                   onChange={(e) => setJobDescription(e.target.value)}
                 />
               </div>
               
-              <div className="flex flex-col sm:flex-row gap-4">
+              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
                 <input
                   type="text"
-                  className="flex-1 p-4 rounded-xl border-2 border-blue-200 focus:border-[#7ec4b6] focus:outline-none bg-white/90 backdrop-blur-sm shadow-sm text-gray-900"
+                  className="flex-1 p-3 sm:p-4 rounded-xl border-2 border-blue-200 focus:border-[#7ec4b6] focus:outline-none bg-white/90 backdrop-blur-sm shadow-sm text-sm sm:text-base text-gray-900"
                   placeholder="Analyse"
                   readOnly
                   value={isAnalyzing ? "Analyzing skills, requirements, and creating your plan..." : ""}
@@ -701,7 +763,7 @@ export default function Home() {
                 <button
                   onClick={handleAnalyze}
                   disabled={isAnalyzing || !jobDescription.trim()}
-                  className="px-8 py-4 rounded-xl bg-[#7ec4b6] hover:bg-[#6eb4a6] transition-all hover:scale-105 text-white font-semibold disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 shadow-lg"
+                  className="px-6 sm:px-8 py-3 sm:py-4 rounded-xl bg-[#7ec4b6] hover:bg-[#6eb4a6] transition-all hover:scale-105 text-white font-semibold text-sm sm:text-base disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 shadow-lg w-full sm:w-auto"
                 >
                   {isAnalyzing ? (
                     <span className="flex items-center gap-2">
@@ -744,12 +806,12 @@ export default function Home() {
       </section>
 
       {/* Footer - Social links, branding, quick navigation */}
-      <footer className="px-6 sm:px-12 py-12 border-t border-blue-200/30 bg-gradient-to-b from-transparent to-blue-100/20">
+      <footer className="px-4 sm:px-6 md:px-12 py-8 sm:py-12 border-t border-blue-200/30 bg-gradient-to-b from-transparent to-blue-100/20">
         <div className="max-w-7xl mx-auto">
           {/* Top section */}
-          <div className="grid md:grid-cols-4 gap-8 mb-12">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 mb-8 sm:mb-12">
             {/* Branding */}
-            <div className="md:col-span-2">
+            <div className="sm:col-span-2">
               <div className="flex items-center gap-3 mb-4">
                 <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#a8d5ba] to-[#7ba8d4] flex items-center justify-center shadow-lg">
                   <span className="text-lg">🚀</span>
@@ -809,7 +871,7 @@ export default function Home() {
           </div>
 
           {/* Bottom section */}
-          <div className="pt-8 border-t border-gray-300/50 flex flex-col sm:flex-row justify-between items-center gap-4">
+          <div className="pt-6 sm:pt-8 border-t border-gray-300/50 flex flex-col sm:flex-row justify-between items-center gap-3 sm:gap-4">
             <p className="text-gray-600 text-sm">
               © 2025 Craft My Prep. All rights reserved.
             </p>
