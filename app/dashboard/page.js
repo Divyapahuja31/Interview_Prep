@@ -101,9 +101,15 @@ export default function Dashboard() {
           >
             <h3 className="text-2xl font-bold text-gray-900 mb-4">Daily Challenge</h3>
             <p className="text-lg text-gray-700 mb-6">Explain React Hooks</p>
-            <button className="px-6 py-3 rounded-xl bg-[#7ec4b6] hover:bg-[#6eb4a6] text-white font-semibold transition-all shadow-lg">
-              Analyse
-            </button>
+            <Link href="/blog/react-interview-questions-2025">
+              <motion.button 
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="px-6 py-3 rounded-xl bg-[#7ec4b6] hover:bg-[#6eb4a6] text-white font-semibold transition-all shadow-lg cursor-pointer"
+              >
+                Start Challenge
+              </motion.button>
+            </Link>
           </motion.div>
 
           {/* Mascot */}
