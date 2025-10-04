@@ -24,3 +24,21 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* Paper unfold animation used by the Preloader letters */
+@keyframes unfold {
+  0% {
+    transform: perspective(600px) rotateY(90deg) scale(0.9);
+    opacity: 0;
+  }
+  60% {
+    transform: perspective(600px) rotateY(0deg) scale(1.06);
+    opacity: 1;
+  }
+  80% {
+    transform: perspective(600px) rotateY(0deg) scale(0.98);
+  }
+  100% {
+    transform: perspective(600px) rotateY(0deg) scale(1);
+  }
+}
