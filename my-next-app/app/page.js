@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { motion, useScroll, useTransform } from "framer-motion";
 import Preloader from "./components/Preloader";
 
@@ -10,6 +11,7 @@ export default function Home() {
   const [scrollY, setScrollY] = useState(0);
   const [showContent, setShowContent] = useState(false);
   const [showMegaMenu, setShowMegaMenu] = useState(false);
+  const [showResourcesMenu, setShowResourcesMenu] = useState(false);
   const heroRef = useRef(null);
   const { scrollYProgress } = useScroll();
   const parallaxY = useTransform(scrollYProgress, [0, 1], [0, -100]);
@@ -36,7 +38,7 @@ export default function Home() {
     <div className="min-h-screen" style={{
       background: "linear-gradient(180deg, #a8d5e2 0%, #e8f4f8 50%, #fef5e7 100%)",
     }}>
-      <Preloader text="LOADING PROJECT VIBE" onComplete={handlePreloaderComplete} />
+      <Preloader text="LOADING" onComplete={handlePreloaderComplete} />
       
       {/* All content hidden during preloader */}
       {showContent && (
@@ -46,7 +48,10 @@ export default function Home() {
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.6, ease: "easeOut" }}
         className="sticky top-0 z-50 px-4 sm:px-8 py-4"
-        onMouseLeave={() => setShowMegaMenu(false)}
+        onMouseLeave={() => {
+          setShowMegaMenu(false);
+          setShowResourcesMenu(false);
+        }}
       >
         <div className="max-w-4xl mx-auto relative">
           {/* Liquid Glass Container - Narrower & Taller */}
@@ -122,67 +127,77 @@ export default function Home() {
                 {/* Center Navigation Links - Compact */}
                 <nav className="hidden md:flex items-center gap-0.5">
                   <motion.button
-                    onMouseEnter={() => setShowMegaMenu(true)}
+                    onMouseEnter={() => {
+                      setShowMegaMenu(true);
+                      setShowResourcesMenu(false);
+                    }}
                     className="px-3 py-1.5 text-xs font-medium text-gray-700 hover:text-gray-900 rounded-full hover:bg-white/40 transition-colors"
                   >
                     Features
                   </motion.button>
-                  <a href="#" className="px-3 py-1.5 text-xs font-medium text-gray-700 hover:text-gray-900 rounded-full hover:bg-white/40 transition-colors">
+                  <motion.button
+                    onMouseEnter={() => {
+                      setShowResourcesMenu(true);
+                      setShowMegaMenu(false);
+                    }}
+                    className="px-3 py-1.5 text-xs font-medium text-gray-700 hover:text-gray-900 rounded-full hover:bg-white/40 transition-colors"
+                  >
                     Resources
-                  </a>
-                  <a href="#" className="px-3 py-1.5 text-xs font-medium text-gray-700 hover:text-gray-900 rounded-full hover:bg-white/40 transition-colors">
-                    Pricing
-                  </a>
-                  <a href="#" className="px-3 py-1.5 text-xs font-medium text-gray-700 hover:text-gray-900 rounded-full hover:bg-white/40 transition-colors">
+                  </motion.button>
+                  <a href="/about" className="px-3 py-1.5 text-xs font-medium text-gray-700 hover:text-gray-900 rounded-full hover:bg-white/40 transition-colors">
                     About
                   </a>
                 </nav>
 
                 {/* Right Side Buttons - Compact */}
                 <div className="flex items-center gap-2">
-                  <motion.button 
-                    whileHover={{ scale: 1.05, y: -1 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="px-3 py-1.5 rounded-full text-xs font-medium text-gray-800 relative overflow-hidden group"
-                    style={{
-                      background: "rgba(255, 255, 255, 0.5)",
-                      backdropFilter: "blur(10px)",
-                      border: "1px solid rgba(255, 255, 255, 0.8)",
-                      boxShadow: "0 2px 8px rgba(0, 0, 0, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.9)",
-                    }}
-                  >
-                    <motion.div
-                      className="absolute inset-0 bg-gradient-to-r from-transparent via-white/50 to-transparent"
-                      initial={{ x: "-100%" }}
-                      whileHover={{ x: "100%" }}
-                      transition={{ duration: 0.6 }}
-                    />
-                    <span className="relative z-10">Login</span>
-                  </motion.button>
+                  <Link href="/login">
+                    <motion.button 
+                      whileHover={{ scale: 1.05, y: -1 }}
+                      whileTap={{ scale: 0.95 }}
+                      className="px-3 py-1.5 rounded-full text-xs font-medium text-gray-800 relative overflow-hidden group cursor-pointer"
+                      style={{
+                        background: "rgba(255, 255, 255, 0.5)",
+                        backdropFilter: "blur(10px)",
+                        border: "1px solid rgba(255, 255, 255, 0.8)",
+                        boxShadow: "0 2px 8px rgba(0, 0, 0, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.9)",
+                      }}
+                    >
+                      <motion.div
+                        className="absolute inset-0 bg-gradient-to-r from-transparent via-white/50 to-transparent"
+                        initial={{ x: "-100%" }}
+                        whileHover={{ x: "100%" }}
+                        transition={{ duration: 0.6 }}
+                      />
+                      <span className="relative z-10">Login</span>
+                    </motion.button>
+                  </Link>
                   
-                  <motion.button 
-                    whileHover={{ scale: 1.05, y: -1 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="px-4 py-1.5 rounded-full text-xs font-semibold text-white relative overflow-hidden group"
-                    style={{
-                      background: "linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%)",
-                      backdropFilter: "blur(10px)",
-                      boxShadow: "0 2px 12px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1)",
-                    }}
-                  >
-                    <motion.div
-                      className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
-                      initial={{ x: "-100%" }}
-                      whileHover={{ x: "100%" }}
-                      transition={{ duration: 0.6 }}
-                    />
-                    <span className="relative z-10">Try Free</span>
-                  </motion.button>
+                  <Link href="/generate">
+                    <motion.button 
+                      whileHover={{ scale: 1.05, y: -1 }}
+                      whileTap={{ scale: 0.95 }}
+                      className="px-4 py-1.5 rounded-full text-xs font-semibold text-white relative overflow-hidden group cursor-pointer"
+                      style={{
+                        background: "linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%)",
+                        backdropFilter: "blur(10px)",
+                        boxShadow: "0 2px 12px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1)",
+                      }}
+                    >
+                      <motion.div
+                        className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
+                        initial={{ x: "-100%" }}
+                        whileHover={{ x: "100%" }}
+                        transition={{ duration: 0.6 }}
+                      />
+                      <span className="relative z-10">Try Free</span>
+                    </motion.button>
+                  </Link>
                 </div>
               </div>
             </div>
 
-            {/* Mega Menu Dropdown */}
+            {/* Features Mega Menu Dropdown */}
             {showMegaMenu && (
               <motion.div
                 initial={{ opacity: 0, y: -10 }}
@@ -332,6 +347,157 @@ export default function Home() {
                 </div>
               </motion.div>
             )}
+
+            {/* Resources Mega Menu Dropdown */}
+            {showResourcesMenu && (
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.2 }}
+                className="absolute top-full left-0 right-0 mt-2"
+                onMouseEnter={() => setShowResourcesMenu(true)}
+                onMouseLeave={() => setShowResourcesMenu(false)}
+              >
+                <div 
+                  className="rounded-2xl border border-white/50 p-6"
+                  style={{
+                    background: "rgba(255, 255, 255, 0.95)",
+                    backdropFilter: "blur(30px) saturate(180%)",
+                    WebkitBackdropFilter: "blur(30px) saturate(180%)",
+                    boxShadow: "0 20px 60px rgba(0, 0, 0, 0.15)",
+                  }}
+                >
+                  <div className="grid grid-cols-3 gap-4 max-w-5xl mx-auto">
+                    {/* Documentation */}
+                    <motion.a
+                      href="#"
+                      whileHover={{ scale: 1.02, y: -2 }}
+                      className="p-4 rounded-xl bg-gradient-to-br from-[#ffd9a3]/20 to-[#ffd9a3]/5 hover:from-[#ffd9a3]/30 hover:to-[#ffd9a3]/10 transition-all group"
+                    >
+                      <div className="flex items-start gap-3">
+                        <div className="w-10 h-10 rounded-lg bg-[#ffd9a3] flex items-center justify-center text-xl shadow-md">
+                          📚
+                        </div>
+                        <div className="flex-1">
+                          <h3 className="font-bold text-gray-900 mb-1 group-hover:text-[#dfb983] transition-colors">
+                            Documentation
+                          </h3>
+                          <p className="text-sm text-gray-600">
+                            Complete guides and tutorials
+                          </p>
+                        </div>
+                      </div>
+                    </motion.a>
+
+                    {/* Video Tutorials */}
+                    <motion.a
+                      href="#"
+                      whileHover={{ scale: 1.02, y: -2 }}
+                      className="p-4 rounded-xl bg-gradient-to-br from-[#ff9999]/20 to-[#ff9999]/5 hover:from-[#ff9999]/30 hover:to-[#ff9999]/10 transition-all group"
+                    >
+                      <div className="flex items-start gap-3">
+                        <div className="w-10 h-10 rounded-lg bg-[#ff9999] flex items-center justify-center text-xl shadow-md">
+                          🎥
+                        </div>
+                        <div className="flex-1">
+                          <h3 className="font-bold text-gray-900 mb-1 group-hover:text-[#df7979] transition-colors">
+                            Video Tutorials
+                          </h3>
+                          <p className="text-sm text-gray-600">
+                            Step-by-step video guides
+                          </p>
+                        </div>
+                      </div>
+                    </motion.a>
+
+                    {/* Blog & Articles */}
+                    <motion.a
+                      href="#"
+                      whileHover={{ scale: 1.02, y: -2 }}
+                      className="p-4 rounded-xl bg-gradient-to-br from-[#b8e0d2]/20 to-[#b8e0d2]/5 hover:from-[#b8e0d2]/30 hover:to-[#b8e0d2]/10 transition-all group"
+                    >
+                      <div className="flex items-start gap-3">
+                        <div className="w-10 h-10 rounded-lg bg-[#b8e0d2] flex items-center justify-center text-xl shadow-md">
+                          📝
+                        </div>
+                        <div className="flex-1">
+                          <h3 className="font-bold text-gray-900 mb-1 group-hover:text-[#98c0b2] transition-colors">
+                            Blog & Articles
+                          </h3>
+                          <p className="text-sm text-gray-600">
+                            Latest tips and insights
+                          </p>
+                        </div>
+                      </div>
+                    </motion.a>
+
+                    {/* Interview Tips */}
+                    <motion.a
+                      href="#"
+                      whileHover={{ scale: 1.02, y: -2 }}
+                      className="p-4 rounded-xl bg-gradient-to-br from-[#c9b5ff]/20 to-[#c9b5ff]/5 hover:from-[#c9b5ff]/30 hover:to-[#c9b5ff]/10 transition-all group"
+                    >
+                      <div className="flex items-start gap-3">
+                        <div className="w-10 h-10 rounded-lg bg-[#c9b5ff] flex items-center justify-center text-xl shadow-md">
+                          💡
+                        </div>
+                        <div className="flex-1">
+                          <h3 className="font-bold text-gray-900 mb-1 group-hover:text-[#a995df] transition-colors">
+                            Interview Tips
+                          </h3>
+                          <p className="text-sm text-gray-600">
+                            Expert advice and strategies
+                          </p>
+                        </div>
+                      </div>
+                    </motion.a>
+
+                    {/* Coding Challenges */}
+                    <motion.a
+                      href="/projects"
+                      whileHover={{ scale: 1.02, y: -2 }}
+                      className="p-4 rounded-xl bg-gradient-to-br from-[#ffb6c1]/20 to-[#ffb6c1]/5 hover:from-[#ffb6c1]/30 hover:to-[#ffb6c1]/10 transition-all group"
+                    >
+                      <div className="flex items-start gap-3">
+                        <div className="w-10 h-10 rounded-lg bg-[#ffb6c1] flex items-center justify-center text-xl shadow-md">
+                          💻
+                        </div>
+                        <div className="flex-1">
+                          <h3 className="font-bold text-gray-900 mb-1 group-hover:text-[#df96a1] transition-colors">
+                            Coding Challenges
+                          </h3>
+                          <p className="text-sm text-gray-600">
+                            Practice problems and solutions
+                          </p>
+                        </div>
+                      </div>
+                    </motion.a>
+
+                    {/* Community Forum */}
+                    <motion.a
+                      href="#"
+                      whileHover={{ scale: 1.02, y: -2 }}
+                      className="p-4 rounded-xl bg-gradient-to-br from-[#ffd700]/20 to-[#ffd700]/5 hover:from-[#ffd700]/30 hover:to-[#ffd700]/10 transition-all group"
+                    >
+                      <div className="flex items-start gap-3">
+                        <div className="w-10 h-10 rounded-lg bg-[#ffd700] flex items-center justify-center text-xl shadow-md">
+                          💬
+                        </div>
+                        <div className="flex-1">
+                          <h3 className="font-bold text-gray-900 mb-1 group-hover:text-[#dfb700] transition-colors">
+                            Community Forum
+                          </h3>
+                          <p className="text-sm text-gray-600">
+                            Connect with other learners
+                          </p>
+                        </div>
+                      </div>
+                    </motion.a>
+                  </div>
+                </div>
+              </motion.div>
+            )}
           </div>
         </div>
       </motion.header>
@@ -351,7 +517,7 @@ export default function Home() {
           <a href="#demo" className="px-5 py-2.5 rounded-full bg-white/70 backdrop-blur-md border border-white/80 text-sm font-medium text-gray-700 hover:bg-white/90 transition-all shadow-md flex items-center gap-2">
             <span>📋</span> Live Demo
           </a>
-          <a href="#about" className="px-5 py-2.5 rounded-full bg-white/70 backdrop-blur-md border border-white/80 text-sm font-medium text-gray-700 hover:bg-white/90 transition-all shadow-md flex items-center gap-2">
+          <a href="/about" className="px-5 py-2.5 rounded-full bg-white/70 backdrop-blur-md border border-white/80 text-sm font-medium text-gray-700 hover:bg-white/90 transition-all shadow-md flex items-center gap-2">
             <span>ℹ️</span> About
           </a>
           <a href="#projects" className="px-5 py-2.5 rounded-full bg-white/70 backdrop-blur-md border border-white/80 text-sm font-medium text-gray-700 hover:bg-white/90 transition-all shadow-md flex items-center gap-2">
@@ -387,120 +553,29 @@ export default function Home() {
             </motion.button>
           </motion.div>
 
-          {/* Right - 3D Mascot with Interactive Floating Skills */}
+          {/* Right - Hero Image */}
           <motion.div
             className="relative flex justify-center items-center"
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.5 }}
           >
-            <div className="relative w-full max-w-md aspect-square">
-              {/* Floating Skill Icons - React */}
-              <motion.div
-                className="absolute top-[8%] left-[12%] w-16 h-16 sm:w-20 sm:h-20 cursor-pointer"
-                animate={{ 
-                  y: [0, -15, 0], 
-                  rotate: [0, 5, 0],
-                  scale: [1, 1.05, 1]
-                }}
-                whileHover={{ scale: 1.2, rotate: 15 }}
-                transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-              >
-                <div className="w-full h-full rounded-2xl bg-[#61dafb]/90 shadow-lg flex items-center justify-center backdrop-blur-sm border-2 border-white/50">
-                  <span className="text-2xl font-bold text-gray-900">⚛️</span>
-                </div>
-                <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 text-xs font-semibold text-gray-700 whitespace-nowrap">React</div>
-              </motion.div>
-              
-              {/* Python */}
-              <motion.div
-                className="absolute top-[5%] right-[8%] w-16 h-16 sm:w-20 sm:h-20 cursor-pointer"
-                animate={{ 
-                  y: [0, -20, 0], 
-                  rotate: [0, -5, 0],
-                  scale: [1, 1.05, 1]
-                }}
-                whileHover={{ scale: 1.2, rotate: -15 }}
-                transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
-              >
-                <div className="w-full h-full rounded-2xl bg-[#3776ab]/90 shadow-lg flex items-center justify-center backdrop-blur-sm border-2 border-white/50">
-                  <span className="text-xl font-bold text-white">🐍 Py</span>
-                </div>
-                <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 text-xs font-semibold text-gray-700 whitespace-nowrap">Python</div>
-              </motion.div>
-
-              {/* SQL */}
-              <motion.div
-                className="absolute top-[15%] right-[18%] w-14 h-14 sm:w-16 sm:h-16 cursor-pointer"
-                animate={{ 
-                  y: [0, -10, 0],
-                  scale: [1, 1.05, 1]
-                }}
-                whileHover={{ scale: 1.2 }}
-                transition={{ duration: 2.8, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-              >
-                <div className="w-full h-full rounded-xl bg-[#00758f]/90 shadow-lg flex items-center justify-center backdrop-blur-sm border-2 border-white/50">
-                  <span className="text-xs font-bold text-white">SQL</span>
-                </div>
-                <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 text-xs font-semibold text-gray-700 whitespace-nowrap">SQL</div>
-              </motion.div>
-
-              {/* JavaScript */}
-              <motion.div
-                className="absolute bottom-[20%] left-[8%] w-14 h-14 sm:w-16 sm:h-16 cursor-pointer"
-                animate={{ 
-                  y: [0, -12, 0],
-                  rotate: [0, 8, 0],
-                  scale: [1, 1.05, 1]
-                }}
-                whileHover={{ scale: 1.2, rotate: 15 }}
-                transition={{ duration: 3.2, repeat: Infinity, ease: "easeInOut", delay: 0.3 }}
-              >
-                <div className="w-full h-full rounded-xl bg-[#f7df1e]/90 shadow-lg flex items-center justify-center backdrop-blur-sm border-2 border-white/50">
-                  <span className="text-lg font-bold text-gray-900">JS</span>
-                </div>
-                <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 text-xs font-semibold text-gray-700 whitespace-nowrap">JavaScript</div>
-              </motion.div>
-
-              {/* Node.js */}
-              <motion.div
-                className="absolute bottom-[25%] right-[12%] w-14 h-14 sm:w-16 sm:h-16 cursor-pointer"
-                animate={{ 
-                  y: [0, -18, 0],
-                  rotate: [0, -10, 0],
-                  scale: [1, 1.05, 1]
-                }}
-                whileHover={{ scale: 1.2, rotate: -15 }}
-                transition={{ duration: 3.6, repeat: Infinity, ease: "easeInOut", delay: 0.7 }}
-              >
-                <div className="w-full h-full rounded-xl bg-[#68a063]/90 shadow-lg flex items-center justify-center backdrop-blur-sm border-2 border-white/50">
-                  <span className="text-sm font-bold text-white">Node</span>
-                </div>
-                <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 text-xs font-semibold text-gray-700 whitespace-nowrap">Node.js</div>
-              </motion.div>
-
-              {/* Robot Mascot - 3D effect */}
-              <motion.div
-                className="relative z-10"
-                animate={{ 
-                  y: [0, -10, 0], 
-                  rotate: [0, -2, 0, 2, 0],
-                }}
-                style={{
-                  transform: `perspective(1000px) rotateY(${scrollY * 0.02}deg)`
-                }}
-                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-              >
-                <Image
-                  src="/robot.png"
-                  alt="Friendly Robot Mascot"
-                  width={400}
-                  height={400}
-                  priority
-                  className="w-full h-auto drop-shadow-2xl"
-                />
-              </motion.div>
-            </div>
+            <motion.div
+              animate={{ 
+                y: [0, -10, 0],
+              }}
+              transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+              className="relative w-full max-w-lg"
+            >
+              <Image
+                src="/hero.png"
+                alt="Interview Prep Hero"
+                width={600}
+                height={600}
+                priority
+                className="w-full h-auto drop-shadow-2xl"
+              />
+            </motion.div>
           </motion.div>
         </div>
         
@@ -676,7 +751,7 @@ export default function Home() {
                 <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#a8d5ba] to-[#7ba8d4] flex items-center justify-center shadow-lg">
                   <span className="text-lg">🚀</span>
                 </div>
-                <span className="text-2xl font-bold text-gray-800">Project Vibe</span>
+                <span className="text-2xl font-bold text-gray-800">Craft My Prep</span>
               </div>
               <p className="text-gray-600 max-w-sm mb-4">
                 Empowering tech professionals to land their dream roles through AI-powered interview preparation.
@@ -711,10 +786,10 @@ export default function Home() {
             <div>
               <h4 className="font-bold text-gray-900 mb-4">Quick Links</h4>
               <ul className="space-y-2">
-                <li><a href="#" className="text-gray-600 hover:text-gray-900 transition-colors">Home</a></li>
-                <li><a href="#" className="text-gray-600 hover:text-gray-900 transition-colors">Features</a></li>
-                <li><a href="#" className="text-gray-600 hover:text-gray-900 transition-colors">Pricing</a></li>
-                <li><a href="#" className="text-gray-600 hover:text-gray-900 transition-colors">Success Stories</a></li>
+                <li><Link href="/" className="text-gray-600 hover:text-gray-900 transition-colors">Home</Link></li>
+                <li><Link href="/dashboard" className="text-gray-600 hover:text-gray-900 transition-colors">Dashboard</Link></li>
+                <li><Link href="/generate" className="text-gray-600 hover:text-gray-900 transition-colors">Generate Plan</Link></li>
+                <li><Link href="/projects" className="text-gray-600 hover:text-gray-900 transition-colors">Mini Projects</Link></li>
               </ul>
             </div>
 
@@ -722,10 +797,10 @@ export default function Home() {
             <div>
               <h4 className="font-bold text-gray-900 mb-4">Resources</h4>
               <ul className="space-y-2">
-                <li><a href="#" className="text-gray-600 hover:text-gray-900 transition-colors">About Us</a></li>
-                <li><a href="#" className="text-gray-600 hover:text-gray-900 transition-colors">Blog</a></li>
-                <li><a href="#" className="text-gray-600 hover:text-gray-900 transition-colors">Privacy Policy</a></li>
-                <li><a href="#" className="text-gray-600 hover:text-gray-900 transition-colors">Terms of Service</a></li>
+                <li><Link href="/about" className="text-gray-600 hover:text-gray-900 transition-colors">About Us</Link></li>
+                <li><Link href="/blog" className="text-gray-600 hover:text-gray-900 transition-colors">Blog</Link></li>
+                <li><Link href="/privacy" className="text-gray-600 hover:text-gray-900 transition-colors">Privacy Policy</Link></li>
+                <li><Link href="/terms" className="text-gray-600 hover:text-gray-900 transition-colors">Terms of Service</Link></li>
               </ul>
             </div>
           </div>
@@ -733,12 +808,12 @@ export default function Home() {
           {/* Bottom section */}
           <div className="pt-8 border-t border-gray-300/50 flex flex-col sm:flex-row justify-between items-center gap-4">
             <p className="text-gray-600 text-sm">
-              © 2025 Project Vibe. All rights reserved.
+              © 2025 Craft My Prep. All rights reserved.
             </p>
             <div className="flex gap-6 text-sm">
-              <a href="#" className="text-gray-600 hover:text-gray-900 transition-colors">Contact</a>
-              <a href="#" className="text-gray-600 hover:text-gray-900 transition-colors">Support</a>
-              <a href="#" className="text-gray-600 hover:text-gray-900 transition-colors">Careers</a>
+              <Link href="/contact" className="text-gray-600 hover:text-gray-900 transition-colors">Contact</Link>
+              <Link href="/support" className="text-gray-600 hover:text-gray-900 transition-colors">Support</Link>
+              <Link href="/careers" className="text-gray-600 hover:text-gray-900 transition-colors">Careers</Link>
             </div>
           </div>
         </div>

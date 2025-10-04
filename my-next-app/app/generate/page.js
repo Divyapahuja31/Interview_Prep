@@ -1,5 +1,6 @@
 "use client";
 import { motion, AnimatePresence } from "framer-motion";
+import Link from "next/link";
 import Sidebar from "../components/Sidebar";
 import { useState } from "react";
 
@@ -69,12 +70,24 @@ export default function GeneratePlan() {
             <p className="text-xl text-gray-700">AI-Powered Interview Preparation</p>
           </div>
           <div className="flex gap-3">
-            <button className="px-5 py-2 rounded-full bg-white/70 backdrop-blur-md border border-white/80 text-sm font-medium text-gray-700 hover:bg-white/90 transition-all">
-              Login
-            </button>
-            <button className="px-5 py-2 rounded-full bg-[#7ec4b6] hover:bg-[#6eb4a6] text-white font-semibold transition-all">
-              Sign Up
-            </button>
+            <Link href="/login">
+              <motion.button 
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="px-5 py-2 rounded-full bg-white/70 backdrop-blur-md border border-white/80 text-sm font-medium text-gray-700 hover:bg-white/90 transition-all"
+              >
+                Login
+              </motion.button>
+            </Link>
+            <Link href="/signup">
+              <motion.button 
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="px-5 py-2 rounded-full bg-[#7ec4b6] hover:bg-[#6eb4a6] text-white font-semibold transition-all"
+              >
+                Sign Up
+              </motion.button>
+            </Link>
           </div>
         </div>
 

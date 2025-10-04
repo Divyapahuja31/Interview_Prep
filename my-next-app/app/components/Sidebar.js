@@ -14,6 +14,7 @@ export default function Sidebar() {
     { icon: "💡", label: "Company Insights", href: "/insights" },
     { icon: "🤖", label: "AI Mentor", href: "/mentor" },
     { icon: "⚡", label: "Mini Projects", href: "/projects" },
+    { icon: "ℹ️", label: "About", href: "/about" },
   ];
 
   return (
@@ -32,12 +33,12 @@ export default function Sidebar() {
           <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#7ec4b6] to-[#6eb4a6] flex items-center justify-center shadow-lg">
             <span className="text-xl">✨</span>
           </div>
-          <h1 className="text-2xl font-bold text-gray-800">Project Vibe</h1>
+          <h1 className="text-2xl font-bold text-gray-800">Craft My Prep</h1>
         </motion.div>
       </Link>
 
       {/* Navigation */}
-      <nav className="space-y-2">
+      <nav className="space-y-4">
         {navItems.map((item, index) => {
           const isActive = pathname === item.href;
           return (
@@ -47,7 +48,7 @@ export default function Sidebar() {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: index * 0.1 }}
                 whileHover={{ scale: 1.02, x: 4 }}
-                className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all cursor-pointer ${
+                className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all cursor-pointer mt-2 ${
                   isActive
                     ? "bg-white/70 shadow-md border border-white/80"
                     : "bg-white/40 hover:bg-white/60"
