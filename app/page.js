@@ -683,7 +683,7 @@ export default function Home() {
                   Paste a Sample Job Description
                 </label>
                 <textarea
-                  className="w-full h-40 p-4 rounded-xl border-2 border-blue-200 focus:border-[#7ec4b6] focus:outline-none resize-none bg-white/90 backdrop-blur-sm transition-all shadow-sm"
+                  className="w-full h-40 p-4 rounded-xl border-2 border-blue-200 focus:border-[#7ec4b6] focus:outline-none resize-none bg-white/90 backdrop-blur-sm transition-all shadow-sm text-gray-900"
                   placeholder="Example: We're looking for a Senior Full Stack Developer with 3+ years experience in React, Node.js, and PostgreSQL..."
                   value={jobDescription}
                   onChange={(e) => setJobDescription(e.target.value)}
@@ -693,7 +693,7 @@ export default function Home() {
               <div className="flex flex-col sm:flex-row gap-4">
                 <input
                   type="text"
-                  className="flex-1 p-4 rounded-xl border-2 border-blue-200 focus:border-[#7ec4b6] focus:outline-none bg-white/90 backdrop-blur-sm shadow-sm"
+                  className="flex-1 p-4 rounded-xl border-2 border-blue-200 focus:border-[#7ec4b6] focus:outline-none bg-white/90 backdrop-blur-sm shadow-sm text-gray-900"
                   placeholder="Analyse"
                   readOnly
                   value={isAnalyzing ? "Analyzing skills, requirements, and creating your plan..." : ""}
