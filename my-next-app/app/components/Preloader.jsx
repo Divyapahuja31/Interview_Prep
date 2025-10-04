@@ -60,10 +60,10 @@ export default function Preloader({
 // Center paper-craft character with gentle float and orbiting items
 function CharacterScene() {
   return (
-    <div className="relative w-[85vw] max-w-[1100px] h-[45vh] sm:h-[50vh]">
+    <div className="relative w-full max-w-[1100px] h-[45vh] sm:h-[50vh] flex items-center justify-center mx-auto">
       {/* Sparkles */}
       <motion.div
-        className="absolute inset-x-[45%] top-[8%]"
+        className="absolute left-1/2 -translate-x-1/2 top-[8%]"
         initial={{ opacity: 0 }}
         animate={{ opacity: [0, 1, 0] }}
         transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut" }}
@@ -77,9 +77,9 @@ function CharacterScene() {
       <FloatingItem className="right-[22%] top-[5%]" kind="cap" delay={0.4} />
       <FloatingItem className="left-[22%] top-[6%]" kind="search" delay={0.6} />
 
-      {/* Robot */}
+      {/* Robot - Centered */}
       <motion.div
-        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+        className="relative"
         animate={{ y: [0, -10, 0], rotate: [0, -2, 0, 2, 0] }}
         transition={{ duration: 3.2, repeat: Infinity, ease: "easeInOut" }}
       >
@@ -89,7 +89,7 @@ function CharacterScene() {
           width={1200}
           height={1200}
           priority
-          className="w-[60vw] sm:w-[50vw] max-w-[700px] h-auto drop-shadow-[0_24px_40px_rgba(0,0,0,0.18)]"
+          className="w-[60vw] sm:w-[50vw] max-w-[700px] h-auto drop-shadow-[0_24px_40px_rgba(0,0,0,0.18)] mx-auto"
         />
       </motion.div>
     </div>

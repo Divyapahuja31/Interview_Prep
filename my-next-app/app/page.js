@@ -144,6 +144,9 @@ export default function Home() {
                   >
                     Resources
                   </motion.button>
+                  <a href="/blog" className="px-3 py-1.5 text-xs font-medium text-gray-700 hover:text-gray-900 rounded-full hover:bg-white/40 transition-colors">
+                    Blog
+                  </a>
                   <a href="/about" className="px-3 py-1.5 text-xs font-medium text-gray-700 hover:text-gray-900 rounded-full hover:bg-white/40 transition-colors">
                     About
                   </a>
