@@ -1,5 +1,7 @@
 import { GoogleGenAI } from '@google/genai';
 import { NextResponse } from 'next/server';
+import { getServerSession } from 'next-auth';
+import { prisma } from '../../../lib/prisma';
 
 export async function POST(request) {
   try {
@@ -59,6 +61,34 @@ export async function POST(request) {
     
     try {
       const parsedResponse = JSON.parse(generatedText);
+      
+      // Save to database if user is authenticated
+      try {
+        const session = await getServerSession();
+        if (session?.user?.email) {
+          const user = await prisma.user.findUnique({
+            where: { email: session.user.email }
+          });
+          
+          if (user) {
+            await prisma.interviewPlan.create({
+              data: {
+                userId: user.id,
+                jobDescription,
+                skills: parsedResponse.skills || [],
+                projects: parsedResponse.projects || [],
+                questions: parsedResponse.questions || [],
+                resources: parsedResponse.resources || [],
+                timeline: parsedResponse.timeline || []
+              }
+            });
+          }
+        }
+      } catch (dbError) {
+        console.error('Error saving to database:', dbError);
+        // Continue without failing the request
+      }
+      
       return NextResponse.json(parsedResponse);
     } catch (parseError) {
       console.error('JSON parsing error:', parseError);

@@ -10,11 +10,13 @@ export default function Sidebar() {
 
   const navItems = [
     { icon: "🔍", label: "My Plans", href: "/dashboard" },
+    { icon: "🤖", label: "Generate Plan", href: "/generate" },
+    { icon: "🚀", label: "New Features", href: "/features" },
+    { icon: "🧪", label: "Test APIs", href: "/test-api" },
     { icon: "📊", label: "Progress", href: "/progress" },
     { icon: "📝", label: "Notes", href: "/notes" },
     { icon: "🏆", label: "Leaderboard", href: "/leaderboard" },
     { icon: "💡", label: "Company Insights", href: "/insights" },
-    { icon: "🤖", label: "AI Mentor", href: "/mentor" },
     { icon: "⚡", label: "Mini Projects", href: "/projects" },
     { icon: "ℹ️", label: "About", href: "/about" },
   ];
