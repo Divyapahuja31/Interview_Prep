@@ -2,9 +2,11 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useSession, signOut } from "next-auth/react";
 
 export default function Sidebar() {
   const pathname = usePathname();
+  const { data: session } = useSession();
 
   const navItems = [
     { icon: "🔍", label: "My Plans", href: "/dashboard" },
@@ -61,6 +63,36 @@ export default function Sidebar() {
           );
         })}
       </nav>
+
+      {/* User Section */}
+      {session && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.6 }}
+          className="mt-8 p-4 bg-white/50 backdrop-blur-sm rounded-2xl"
+        >
+          <div className="flex items-center gap-3 mb-3">
+            <img 
+              src={session.user.image} 
+              alt={session.user.name}
+              className="w-10 h-10 rounded-full"
+            />
+            <div>
+              <p className="font-medium text-gray-800 text-sm">{session.user.name}</p>
+              <p className="text-xs text-gray-600">{session.user.email}</p>
+            </div>
+          </div>
+          <motion.button
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            onClick={() => signOut()}
+            className="w-full px-3 py-2 text-sm bg-red-100 hover:bg-red-200 text-red-700 rounded-lg transition-all"
+          >
+            Sign Out
+          </motion.button>
+        </motion.div>
+      )}
 
       {/* Mascot Section */}
       <motion.div

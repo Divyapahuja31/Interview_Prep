@@ -2,6 +2,7 @@ import { Inter, Roboto_Mono } from "next/font/google";
 import "./globals.css";
 import LenisProvider from "./components/LenisProvider";
 import CustomCursor from "./components/CustomCursor";
+import AuthSessionProvider from "./components/SessionProvider";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -24,10 +25,12 @@ export default function RootLayout({ children }) {
       <body
         className={`${inter.variable} ${robotoMono.variable} antialiased`}
       >
-        <CustomCursor />
-        <LenisProvider>
-          {children}
-        </LenisProvider>
+        <AuthSessionProvider>
+          <CustomCursor />
+          <LenisProvider>
+            {children}
+          </LenisProvider>
+        </AuthSessionProvider>
       </body>
     </html>
   );

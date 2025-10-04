@@ -3,8 +3,10 @@ import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import Sidebar from "../components/Sidebar";
 import { useState } from "react";
+import { useSession } from "next-auth/react";
 
 export default function GeneratePlan() {
+  const { data: session } = useSession();
   const [jobDescription, setJobDescription] = useState("");
   const [isGenerating, setIsGenerating] = useState(false);
   const [generatedPlan, setGeneratedPlan] = useState(null);
@@ -17,45 +19,76 @@ export default function GeneratePlan() {
     "Finalizing Your Roadmap..."
   ];
 
-  const handleGenerate = () => {
+  const handleGenerate = async () => {
+    if (!jobDescription.trim()) return;
+    
     setIsGenerating(true);
     setLoadingStep(0);
     
-    // Simulate AI processing
+    // Simulate loading steps
     const interval = setInterval(() => {
       setLoadingStep(prev => {
         if (prev >= 3) {
           clearInterval(interval);
-          setTimeout(() => {
-            setIsGenerating(false);
-            setGeneratedPlan({
-              skills: ["React", "Python", "SQL"],
-              projects: [
-                { title: "Build a React Todo List", icon: "✅" },
-                { title: "SQL User Database Schema", icon: "🗄️" },
-                { title: "Python API Integration", icon: "🔌" }
-              ],
-              questions: [
-                { title: "Explain React Hooks", icon: "⚛️" },
-                { title: "Master Flexbox", icon: "📐" },
-                { title: "SQL Joins Deep Dive", icon: "🔗" }
-              ],
-              resources: [
-                { title: "React Documentation", icon: "📚" },
-                { title: "SQL Tutorial Series", icon: "🎥" },
-                { title: "Python Best Practices", icon: "📖" }
-              ],
-              timeline: [
-                { title: "How to optimize SQL queries", icon: "⏱️" },
-                { title: "Timeline / Schedule", icon: "📅" }
-              ]
-            });
-          }, 1000);
           return prev;
         }
         return prev + 1;
       });
     }, 1500);
+
+    try {
+      const response = await fetch('/api/generate-plan', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ jobDescription }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to generate plan');
+      }
+
+      const data = await response.json();
+      
+      // Clear the loading interval
+      clearInterval(interval);
+      
+      // Small delay for better UX
+      setTimeout(() => {
+        setIsGenerating(false);
+        setGeneratedPlan(data);
+      }, 1000);
+
+    } catch (error) {
+      console.error('Error generating plan:', error);
+      clearInterval(interval);
+      setIsGenerating(false);
+      
+      // Show fallback plan on error
+      setGeneratedPlan({
+        skills: ["JavaScript", "React", "Node.js", "SQL"],
+        projects: [
+          { title: "Build a Task Management App", icon: "✅" },
+          { title: "Create REST API with Authentication", icon: "🔐" },
+          { title: "Database Design Project", icon: "🗄️" }
+        ],
+        questions: [
+          { title: "Explain React Component Lifecycle", icon: "⚛️" },
+          { title: "Database Optimization Techniques", icon: "🚀" },
+          { title: "API Security Best Practices", icon: "🔒" }
+        ],
+        resources: [
+          { title: "React Official Documentation", icon: "📚" },
+          { title: "Node.js Best Practices Guide", icon: "📖" },
+          { title: "SQL Tutorial Series", icon: "🎥" }
+        ],
+        timeline: [
+          { title: "Week 1-2: Core Concepts Review", icon: "📅" },
+          { title: "Week 3-4: Project Implementation", icon: "⏱️" }
+        ]
+      });
+    }
   };
 
   return (
@@ -70,24 +103,38 @@ export default function GeneratePlan() {
             <p className="text-xl text-gray-700">AI-Powered Interview Preparation</p>
           </div>
           <div className="flex gap-3">
-            <Link href="/login">
-              <motion.button 
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="px-5 py-2 rounded-full bg-white/70 backdrop-blur-md border border-white/80 text-sm font-medium text-gray-700 hover:bg-white/90 transition-all"
-              >
-                Login
-              </motion.button>
-            </Link>
-            <Link href="/signup">
-              <motion.button 
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="px-5 py-2 rounded-full bg-[#7ec4b6] hover:bg-[#6eb4a6] text-white font-semibold transition-all"
-              >
-                Sign Up
-              </motion.button>
-            </Link>
+            {session ? (
+              <Link href="/dashboard">
+                <motion.button 
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="px-5 py-2 rounded-full bg-white/70 backdrop-blur-md border border-white/80 text-sm font-medium text-gray-700 hover:bg-white/90 transition-all"
+                >
+                  Dashboard
+                </motion.button>
+              </Link>
+            ) : (
+              <>
+                <Link href="/login">
+                  <motion.button 
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="px-5 py-2 rounded-full bg-white/70 backdrop-blur-md border border-white/80 text-sm font-medium text-gray-700 hover:bg-white/90 transition-all"
+                  >
+                    Login
+                  </motion.button>
+                </Link>
+                <Link href="/signup">
+                  <motion.button 
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="px-5 py-2 rounded-full bg-[#7ec4b6] hover:bg-[#6eb4a6] text-white font-semibold transition-all"
+                  >
+                    Sign Up
+                  </motion.button>
+                </Link>
+              </>
+            )}
           </div>
         </div>
 

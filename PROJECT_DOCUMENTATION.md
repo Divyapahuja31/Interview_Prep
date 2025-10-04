@@ -234,9 +234,9 @@ http://localhost:3000
 ## 🔮 Future Enhancements
 
 ### To Be Implemented
-- [ ] Real AI integration (OpenAI/HuggingFace API)
-- [ ] User authentication (Firebase/Supabase)
-- [ ] Database persistence
+- [ ] Real AI integration (gemini)
+- [ ] User authentication (nextauth)
+- [ ] Database persistence (prisma + postgresql)
 - [ ] Real-time code execution
 - [ ] Voice chat with mascot
 - [ ] 3D mascot with React Three Fiber
