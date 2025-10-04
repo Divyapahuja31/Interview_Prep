@@ -380,7 +380,8 @@ export default function Home() {
             <motion.button 
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="px-10 py-4 rounded-full bg-[#7ec4b6] hover:bg-[#6eb4a6] transition-all text-white font-semibold text-lg shadow-xl"
+              onClick={() => window.location.href = '/generate'}
+              className="px-10 py-4 rounded-full bg-[#7ec4b6] hover:bg-[#6eb4a6] transition-all text-white font-semibold text-lg shadow-xl cursor-pointer"
             >
               Generate My Plan
             </motion.button>
