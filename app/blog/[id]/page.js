@@ -846,6 +846,162 @@ Annual storage: 30GB * 365 = ~11TB/year</code></pre>
       <h2>Conclusion</h2>
       <p>Mastering these data structures is essential for any software engineer. Practice regularly, understand the trade-offs, and you'll be well-prepared for technical interviews!</p>
     `
+  },
+  "javascript-closures-scopes": {
+    title: "Mastering JavaScript Closures and Scopes",
+    date: "Feb 5, 2025",
+    category: "JavaScript",
+    readTime: "9 min read",
+    author: "James Wilson",
+    content: `
+      <h2>Understanding JavaScript Scopes and Closures</h2>
+      <p>Closures and scopes are fundamental concepts in JavaScript that every developer should master. Let's break them down with practical examples.</p>
+      
+      <h2>1. Lexical Scoping</h2>
+      <p>JavaScript uses lexical scoping, meaning the scope of a variable is determined by its position in the source code.</p>
+      
+      <pre><code>function outer() {
+    const outerVar = 'I am outside!';
+    
+    function inner() {
+        console.log(outerVar); // 'I am outside!'
+    }
+    
+    inner();
+}</code></pre>
+
+      <h2>2. Closures in Action</h2>
+      <p>A closure gives you access to an outer function's scope from an inner function.</p>
+      
+      <pre><code>function createCounter() {
+    let count = 0;
+    
+    return function() {
+        count++;
+        return count;
+    };
+}
+
+const counter = createCounter();
+console.log(counter()); // 1
+console.log(counter()); // 2</code></pre>
+
+      <h2>3. Common Use Cases</h2>
+      <ul>
+          <li>Data privacy and encapsulation</li>
+          <li>Currying and function factories</li>
+          <li>Event handlers and callbacks</li>
+          <li>Memoization</li>
+      </ul>
+    `
+  },
+  "css-grid-complete-guide": {
+    title: "The Complete Guide to CSS Grid Layout",
+    date: "Feb 10, 2025",
+    category: "CSS",
+    readTime: "11 min read",
+    author: "Emily Chen",
+    content: `
+      <h2>Mastering CSS Grid Layout</h2>
+      <p>CSS Grid is a powerful layout system that brings two-dimensional layouts to the web. Let's explore its core concepts.</p>
+      
+      <h2>1. Grid Container Basics</h2>
+      <p>Create a grid container and define columns and rows:</p>
+      
+      <pre><code>.container {
+    display: grid;
+    grid-template-columns: 200px 1fr 2fr;
+    grid-template-rows: 100px 200px;
+    gap: 20px;
+}</code></pre>
+
+      <h2>2. Grid Template Areas</h2>
+      <p>Create complex layouts with named areas:</p>
+      
+      <pre><code>.container {
+    display: grid;
+    grid-template-areas:
+        "header header header"
+        "sidebar content content"
+        "footer footer footer";
+}
+
+.header { grid-area: header; }
+.sidebar { grid-area: sidebar; }
+.content { grid-area: content; }
+.footer { grid-area: footer; }</code></pre>
+
+      <h2>3. Responsive Grids</h2>
+      <p>Use auto-fill and minmax for responsive designs:</p>
+      
+      <pre><code>.responsive-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1rem;
+}</code></pre>
+    `
+  },
+  "nodejs-microservices": {
+    title: "Building Scalable Microservices with Node.js",
+    date: "Feb 15, 2025",
+    category: "Backend",
+    readTime: "14 min read",
+    author: "David Kim",
+    content: `
+      <h2>Microservices Architecture with Node.js</h2>
+      <p>Learn how to design and implement scalable microservices using Node.js and modern tools.</p>
+      
+      <h2>1. Core Principles</h2>
+      <ul>
+          <li>Single Responsibility Principle</li>
+          <li>Independent Deployment</li>
+          <li>Decentralized Data Management</li>
+          <li>Infrastructure Automation</li>
+      </ul>
+
+      <h2>2. Service Communication</h2>
+      <p>Choose the right communication pattern:</p>
+      
+      <h3>Synchronous (HTTP/REST)</h3>
+      <pre><code>// Using Express
+app.get('/api/users/:id', async (req, res) => {
+    const user = await userService.getUser(req.params.id);
+    res.json(user);
+});</code></pre>
+
+      <h3>Asynchronous (Message Brokers)</h3>
+      <pre><code>// Using RabbitMQ
+channel.consume('order_created', (msg) => {
+    const order = JSON.parse(msg.content.toString());
+    // Process order...
+    channel.ack(msg);
+});</code></pre>
+
+      <h2>3. Service Discovery & Load Balancing</h2>
+      <p>Implement service discovery with Consul:</p>
+      
+      <pre><code>const consul = require('consul')();
+
+// Register service
+consul.agent.service.register({
+    name: 'user-service',
+    address: 'localhost',
+    port: 3000,
+    check: {
+        http: 'http://localhost:3000/health',
+        interval: '10s'
+    }
+});</code></pre>
+
+      <h2>4. Best Practices</h2>
+      <ul>
+          <li>Implement circuit breakers</li>
+          <li>Use API gateways</li>
+          <li>Centralized logging and monitoring</li>
+          <li>Containerization with Docker</li>
+          <li>Orchestration with Kubernetes</li>
+      </ul>
+    `
   }
 };
 
