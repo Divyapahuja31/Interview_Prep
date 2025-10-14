@@ -57,6 +57,33 @@ export default function Blog() {
       category: "DSA",
       color: "from-orange-200 to-orange-100",
       readTime: "15 min read"
+    },
+    {
+      id: "javascript-closures-scopes",
+      title: "Mastering JavaScript Closures and Scopes",
+      excerpt: "A deep dive into JavaScript's scoping rules and closure patterns",
+      date: "Feb 5, 2025",
+      category: "JavaScript",
+      color: "from-amber-200 to-amber-100",
+      readTime: "9 min read"
+    },
+    {
+      id: "css-grid-complete-guide",
+      title: "The Complete Guide to CSS Grid Layout",
+      excerpt: "Master modern CSS layout techniques with this comprehensive guide",
+      date: "Feb 10, 2025",
+      category: "CSS",
+      color: "from-indigo-200 to-indigo-100",
+      readTime: "11 min read"
+    },
+    {
+      id: "nodejs-microservices",
+      title: "Building Scalable Microservices with Node.js",
+      excerpt: "Architecture patterns and best practices for microservices",
+      date: "Feb 15, 2025",
+      category: "Backend",
+      color: "from-emerald-200 to-emerald-100",
+      readTime: "14 min read"
     }
   ];
 
@@ -102,9 +129,25 @@ export default function Blog() {
                 </div>
                 <h3 className="text-xl font-bold text-gray-900 mb-3">{post.title}</h3>
                 <p className="text-sm text-gray-700 mb-4">{post.excerpt}</p>
-                <div className="flex items-center justify-between">
-                  <span className="text-xs text-gray-600">{post.date}</span>
-                  <span className="text-[#7ec4b6] font-semibold text-sm">Read More →</span>
+                <div className="flex items-center justify-between mt-4 pt-3 border-t border-white/30">
+                  <span className="text-xs text-gray-700">{post.date}</span>
+                  <span className="group flex items-center text-[#5aa898] hover:text-[#3d8e7d] font-medium text-sm transition-colors">
+                    Read More
+                    <svg 
+                      className="w-4 h-4 ml-1 transform group-hover:translate-x-1 transition-transform" 
+                      fill="none" 
+                      stroke="currentColor" 
+                      viewBox="0 0 24 24" 
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path 
+                        strokeLinecap="round" 
+                        strokeLinejoin="round" 
+                        strokeWidth={2} 
+                        d="M14 5l7 7m0 0l-7 7m7-7H3" 
+                      />
+                    </svg>
+                  </span>
                 </div>
               </motion.div>
             </Link>
